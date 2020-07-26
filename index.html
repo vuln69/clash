@@ -1,297 +1,162 @@
 
+
+
+
+
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html>
 <head>
-	<title></title>
-	<meta charset='utf-8'>
-	<meta name="viewport" content="width=device-width,user-scalable=no" />
-	<meta name="format-detection" content="telephone=no"/>
-	<link rel="stylesheet" href="/asset/jquery/jquery-ui.min.css?v=20190615">
-	<script type="text/javascript">
-		window.elex = window.elex || {};
-		window.elex.tag = 0;
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-title" content="">
+<link rel="stylesheet" href="/asset/jquery/jquery-ui.css?v=20190615">
+<script type="text/javascript" src="/asset/jquery/jquery.js?v=20190615"></script>
+<link rel="stylesheet" href="https://unpkg.com/animate.css@3.5.2/animate.min.css">
+<script src="/asset/jquery/jquery-ui.js?v=20190615"></script>
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-136395152-1', 'auto');
+ga('set', 'page', 'S3WorldCupGuess');
+ga('send', 'pageview');
+	
+</script>
+<script>
 
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-		ga('create', 'UA-136395152-1', 'auto');
-		ga('set', 'page', 'activityCenter');
-		ga('send', 'pageview');	
+		// jQuery UI draggable 适配移动端
+	
+		var moveFlag = 0; // 是否移动的flag
+		// /iPad|iPhone|Android/.test( navigator.userAgent ) &&
+		(function ($) {
+			var proto = $.ui.mouse.prototype, _mouseInit = proto._mouseInit;
+			$.extend(proto, {
+				_mouseInit: function () {
+					this.element.bind("touchstart." + this.widgetName, $.proxy(this, "_touchStart"));
+					_mouseInit.apply(this, arguments);
+				}, _touchStart: function (event) {
+					this.element.bind("touchmove." + this.widgetName, $.proxy(this, "_touchMove")).bind("touchend." + this.widgetName, $.proxy(this, "_touchEnd"));
+					this._modifyEvent(event);
+					$(document).trigger($.Event("mouseup"));
+					//reset mouseHandled flag in ui.mouse
+					this._mouseDown(event);
+					//console.log(this);
+					//return false;
+	
+					//--------------------touchStart do something--------------------
+					console.log("i touchStart!");
+	
+				}, _touchMove: function (event) {
+					moveFlag = 1;
+					this._modifyEvent(event);
+					this._mouseMove(event);
+	
+					//--------------------touchMove do something--------------------
+					console.log("i touchMove!");
+	
+				}, _touchEnd: function (event) {
+					// 主动触发点击事件
+					if (moveFlag == 0) {
+						var evt = document.createEvent('Event');
+						evt.initEvent('click', true, true);
+						this.handleElement[0].dispatchEvent(evt);
+					}
+					this.element.unbind("touchmove." + this.widgetName).unbind("touchend." + this.widgetName);
+					this._mouseUp(event);
+					moveFlag = 0;
+	
+					//--------------------touchEnd do something--------------------
+					console.log("i touchEnd!");
+	
+				}, _modifyEvent: function (event) {
+					event.which = 1;
+					var target = event.originalEvent.targetTouches[0];
+					event.pageX = target.clientX;
+					event.pageY = target.clientY;
+				}
+			});
+		})(jQuery);
 	</script>
-	<script type="text/javascript" src="/asset/jquery/jquery.min.js?v=20190615"></script>
-	<style type="text/css">
-		html,body,section,article,header,footer,h1,h2,h3,h4,h5,h6{
-			padding:0;
-			margin:0;
-			font-family:arial,sans-serif;
-			font-size:14px;
-		}
-		.clear{
-			clear:both;
-		}
-		section{
+<titleKuis Piala Dunia S3 CoK</title>
+<style type="text/css">
+html,body{
+	margin:0;
+	padding:0;
+	color:#fff;
+	background:#080401;
+	-webkit-text-size-adjust:100%;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	font-size: 12px;
+}
+section{
 			max-width:640px;
 			margin:0 auto;
 		}
-		span.btn{
-			background-repeat:no-repeat;
-			background-size:contain;			
-		}
-		span.btn1{
-			background-image:url('/activityCenter/asset/image/icon/n/btn1_bg.png');
-		}
-		span.btn2{
-			background-image:url('/activityCenter/asset/image/icon/n/btn2_bg.png');
-		}
-		span.btn3{
-			background-image:url('/activityCenter/asset/image/icon/n/btn3_bg.png');
-		}
-		section.recommand{
-			background:#262019 url('/activityCenter/asset/image/icon/n/item_bg.png') no-repeat 50% bottom;
-		}
-		section.recommand article{
-			background-color:#262019;
-			background-repeat:no-repeat;
-			background-size:contain;
-			background-image:url('/activityCenter/asset/image/icon/n/recommand_bg.png');
-			position:relative;
-		}
-		section.recommand .title{
-			font-size:16px;
-			color:#ffea94;
-			font-weight:bold;
-			text-align:center;
-			height:0;
-			overflow:hidden;
-		}
-		section.recommand .back{
-			position:absolute;
-			left:0;
-			top:0;
-			width:15%;
-			height:15%;
-			z-index:9998;
-			color:transparent;
-			text-indent:-1000px;
-		}
-		section.recommand span.a17{
-			display:none;			
-		}
-		section.recommand .gift,section.recommand .gift2{
-			background-repeat:no-repeat;
-			background-size:contain;
-			position:absolute;
-			right:14%;
-			bottom:34%;
-			z-index:9998;			
-		}
-		section.recommand .gift{
-			background-image:url('/activityCenter/asset/image/icon/n/gift.png');
-			cursor:pointer;
-		}
-		section.recommand .gift2{
-			background-image:url('/activityCenter/asset/image/icon/n/gift2.png');
-		}
-		section.recommand .cnt{
-			position:absolute;
-			left:0;
-			right:0;
-			bottom:16%;
-			text-align:center;
-			z-index:9998;
-		}
-		section.recommand .slogan{
-			color:#f17053;
-		}
-		section.recommand span.btn{
-			display:inline-block;
-			background-repeat:no-repeat;
-			background-size:100%;
-			background-position:50%,50%;
-			color:#fff;
-			width:45%;
-			height:0;
-			font-size:16px;
-			overflow:hidden;
-			font-weight:bold;
-			margin-bottom:-2px;
-		}
-		section.item{
-			background:#262019 url('/activityCenter/asset/image/icon/n/item_bg.png') no-repeat 50% 0;
-		}
-		section.item .col{
-			float:left;
-			width:50%;
-			overflow:hidden;
-		}
-		section.item .thumbnail,section.item .title{
-			background-repeat:no-repeat;
-			background-size:contain;
-			position:relative;
-		}
-		section.item .hot,section.item .new{
-			background-repeat:no-repeat;
-			background-size:contain;
-			background-image:url('/activityCenter/asset/image/icon/n/hot.png?v=20190614');
-			position:absolute;
-			right:10%;
-			top:0;
-			z-index:9900;
-		}
-		section.item .new{
-			background-image:url('/activityCenter/asset/image/icon/n/new.png?v=20190614');
-		}
-		section.item .thumbnail{
-			background-image:url('/activityCenter/asset/image/icon/n/recommand_bg.png');
-			color:#fff;
-			z-index:9700;
-		}
-		section.item .thumbnail span{
-			position:absolute;
-			bottom:0;
-			left:0;
-			line-height:1.5;
-			padding:0 12px;
-			background-color:#000;
-			color:#AF3B2D;
-			font-size:12px;
-		}
-		section.item .abstract{
-			padding:6px 12px;
-			line-height:1.8;
-			color:rgb(135,111,73);
-			background-color:rgba(0,0,0,0.3);
-		}
-		section.item .title{
-			background-position:4px 0;
-			background-image:url('/activityCenter/asset/image/icon/n/title_bg.png');
-			text-align:center;
-			font-size:16px;
-			font-weight:bold;
-			color:rgb(199,185,150);
-			top:2px;
-			z-index:9800;
-			margin-bottom:-6px;
-		}
-		section.item .reward{
-			position:relative;
-		}
-		section.item .reward .inner{
-			margin-left:4%;
-			margin-top:6px;
-		}
-		section.item .reward b{
-			margin-left:3%;
-			display:block;
-			line-height:2;
-			font-weight:normal;
-			color:#cacaca;
-		}
-		section.item .reward i{
-			margin-left:3%;
-			width:20%;
-			display:inline-block;
-			background-size:contain;
-			background-repeat:no-repeat;
-		}
-		section.item .reward i{
-			margin-left:3%;
-			width:20%;
-			display:inline-block;
-			background-size:contain;
-			background-repeat:no-repeat;
-		}
-		i.i1{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i1.png');
-		}
-		i.i2{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i2.png');
-		}
-		i.i3{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i3.png');
-		}
-		i.i4{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i4.png');
-		}
-		i.i5{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i5.png');
-		}
-		i.i6{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i6.png');
-		}
-		i.i7{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i7.png');
-		}
-		i.i8{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i8.png');
-		}
-		i.i9{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i9.png');
-		}
-		i.i10{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i10.png');
-		}
-		i.i11{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i11.png');
-		}
-		i.i12{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i12.png');
-		}
-		i.i13{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i13.png');
-		}
-		i.i14{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i14.png');
-		}
-		i.i15{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i15.png');
-		}
-		i.i16{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i16.png');
-		}
-		i.i17{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i17.png');
-		}
-		i.i18{
-			background-image:url('/activityCenter/asset/image/icon/n/reward/i18.png');
-		}
-		section.item .reward .wrapper{
-			position:absolute;
-			left:0;
-			right:0;
-			bottom:15%;
-			text-align:center;
-		}
-		section.item .reward span.btn{
-			display:inline-block;
-			background-repeat:no-repeat;
-			background-size:100%;
-			background-position:50%,50%;
-			color:#FBD9A7;
-			width:60%;
-			height:0;
-			font-size:16px;
-			overflow:hidden;
-		}
-
-		div.ui-widget-overlay{
-			background:#000;
-			opacity:0.7;
-		}
-
-		.reward-dialog{
+	
+	.bg
+	{
+		background-color:#262019;
+		background-repeat:no-repeat;
+		background-size:contain;
+		position:relative;
+	}
+	#page1
+	{
+		background-image:url('http://h5.eleximg.com/a31/asset/image/bg3.jpg');
+		
+	}
+	.title{
+		height: 73px;
+		top: 0;
+		position: absolute;
+		width: 100%;
+	}
+	#tipsBtn
+	{
+		position: absolute;
+		width: 8%;
+		left: 90%;
+		top: 11%;
+		height: 80%;
+	}
+	#backBtn
+	{
+		position: absolute;
+		width: 22%;
+		left: 0%;
+		top: 0%;
+		height: 100%;
+	}
+	.content
+	{
+		position: absolute;
+		width: 90%;
+		left: 5%;
+		top: 11%;
+		height: 58%;
+		overflow-y: auto;
+		color: #fff6e4;
+		font-size: 14px;
+		
+	}
+	.reward-dialog{
 			z-index:9999;
 			background-repeat:no-repeat;
 			background-size:contain;
 			background-position:50% 50%;
-			background-image:url('/activityCenter/asset/image/icon/n/dialog_bg.png?20190621');
+			background-image:url('http://h5.eleximg.com/x/asset/image/dialog_bg1.png');
 			padding:0;
 			margin:0;
 			border:none!important;
 		}
-
 		.reward-dialog .inner{
 			text-align:center;
 		}
@@ -304,361 +169,2827 @@
 		}
 		.reward-dialog h5{
 			line-height:1.5;
-			margin:25% 0 10%;
+			margin:10% 0 8%;
 		}
-		.reward-dialog i{
-			width:30%;
-			margin:0 1.5%;
-			display:inline-block;
-			background-size:contain;
-			background-repeat:no-repeat;
+		.normalTipsD{
+			position: absolute;
+			left: 5%;
+			right: 5%;
+			top: 40%;
 		}
-		.reward-dialog span.btn{
-			display:inline-block;
-			width:60%;
-			margin-top:10%;
-			cursor:pointer;
+		.normalTips{
+			text-align: center;
+			font-style: normal;
 		}
-		.loading{
-			position:fixed;
-			left:0;
-			top:0;
-			right:0;
-			bottom:0;
-			z-index:10000;
-			background:rgba(0,0,0,0.7);
-			display:none;
-			text-align:center;
-			color:#fff;
-			font-weight:bold;
-			font-size:20px;
+		#closeBtn{
+            margin-top: 1%;
+            right: 14%;
+        }
+		.closeBtn
+		{
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-image: url("http://h5.eleximg.com/store/asset/image/hideBtn.png");
+			display: inline-block;
+			position: relative;
+			margin-top: 4%;
+			right: 6%;
+			position: absolute;
 		}
-		.loading span{
-			position:relative;
-			top:48%;
-		}
-	</style>
+	.llShop
+	{
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-image: url("http://h5.eleximg.com/a31/asset/image/longlinShop.png");
+		position: absolute;
+		top: 33%;
+		z-index: 201;
+	}
+	.guessDialog
+	{
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-image: url("http://h5.eleximg.com/a31/asset/image/guessDialog3.png");
+		position: absolute;
+		top: 40%;
+		z-index: 201;
+	}
+	.tipsNormal {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url("http://h5.eleximg.com/a31/asset/image/guessDialog2.png");
+    position: absolute;
+	top: 33%;
+    z-index: 201;
+}
+.tipsDiaStr4{
+	position: absolute;
+    width: 91%;
+    height: 10%;
+    top: 6%;
+    font-size: 12px;
+    display: table-cell;
+    vertical-align: middle;
+    color: #ffedae;
+    text-align: left;
+}
+
+.reward1
+{
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-image: url("http://h5.eleximg.com/a29/asset/image/tips.jpg");
+	position: absolute;
+	width: 66%;
+	height: 21%;
+	left: 17%;
+	top: 42%;
+}
+.btn1 {
+    width: 184px;
+    height: 44px;
+    background: url("http://h5.eleximg.com/a27/asset/image/btn.png");
+    background-repeat: no-repeat;
+    color: white;
+    font-weight: bolder;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    font-size: 0.8rem;
+    display: inline-block;
+    line-height: 90%;
+    background-size: cover;
+    border: none;
+}
+
+.btnStr,.tipsTitleStr,.ruleStr,.dialogStr
+{
+	vertical-align: middle;
+	display: table-cell;
+}
+.titleTab
+{
+	position: absolute;
+    width: 100%;
+	height: 4%;
+    top: 14.5%;
+}
+.llShopStr
+{
+	width: 27%;
+    height: 100%;
+    text-align: center;
+	display: table;
+	text-decoration: underline;
+	font-size: 12px;
+}
+.llDetailStr
+{
+	position: absolute;
+	width: 30%;
+    height: 100%;
+    left: 35.5%;
+	text-align: center;
+	display: table;
+	top: 0%;
+	font-size: 12px;
+	text-decoration: underline;
+}
+.myLLStr
+{
+	position: absolute;
+	width: 27.5%;
+    height: 100%;
+    left: 72.5%;
+	text-align: center;
+	display: table;
+	top: 0%;
+	font-size: 12px;
+}
+.hotGuess
+{
+	position: absolute;
+	width: 100%;
+	height: 14%;
+	top:18%;
+	text-align: center;
+}
+.hotGuessTitle
+{
+	position: absolute;
+	width: 100%;
+	height: 32%;
+	top:3%;
+	text-align: center;
+	display: table;
+}
+.hotGuessStr
+{
+	position: absolute;
+    width: 94%;
+    height: 20%;
+    top: 41%;
+    left: 3%;
+    text-align: left;
+}
+.hotGuessChoose
+{
+	position: absolute;
+    width: 100%;
+    height: 35%;
+    top: 61%;
+}
+#drop
+{
+	position: absolute;
+    width: 50%;
+    height: 130%;
+    /* top: 5%; */
+    left: 25%;
+}
+.hotGuessDrop
+{
+	position: absolute;
+    width: 50%;
+    height: 44%;
+    top: 5%;
+    left: 3%;
+}
+
+.hotGuessBtn
+{
+    position: absolute;
+    width: 30%;
+    height: 68%;
+    top: 0%;
+    left: 53%;
+    display: table;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-image: url("http://h5.eleximg.com/a31/asset/image/btn1.jpg");
+	/* background-image: url("http://h5.eleximg.com/a31/asset/image/btn7.jpg"); */
+}
+.singleGuess
+{
+	position: absolute;
+	width: 100%;
+	height: 68%;
+    top: 32%;
+	text-align: center;
+}
+.singleGuessTitle
+{
+	position: absolute;
+    width: 100%;
+    height: 6.5%;
+    top: 1%;
+	text-align: center;
+	display: table;
+}
+.singleBtns
+{
+	position: absolute;
+    width: 96%;
+    height: 7.5%;
+    top: 9%;
+    left: 2%;
+}
+.sbtn{
+	color:#ffd05e;
+	position: absolute;
+    width: 20%;
+    height: 100%;
+	display: table;
+	text-align: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+.sbtn1
+{
+	left: 0.5%;
+}
+.sbtn2
+{
+	left: 20%;
+}
+.sbtn3
+{
+	left: 40%;
+}
+.sbtn4
+{
+	left: 60%;
+}
+.sbtn5
+{
+	left: 80%;
+	background-image: url("http://h5.eleximg.com/a31/asset/image/chooseImg.png");
+}
+
+.singleList1,.singleList2,.singleList3,.singleList4,.singleList5,.singleList6
+{
+	position: absolute;
+    width: 96%;
+    height: 83%;
+    top: 17%;
+    left: 3%;
+	overflow-y: auto;
+}
+.list
+{
+	position: absolute;
+    width: 100%;
+    height: 23%;
+    left: 0%;
+}
+.list1
+{
+    top: 1%;
+}
+.list2
+{
+    top: 25%;
+}
+.list3
+{
+    top: 49%;
+}
+.list4
+{
+    top: 73%;
+}
+.listTitle
+{
+    position: absolute;
+	width: 100%;
+    height: 20%;
+    left: 0%;
+    display: table;
+    text-align: left;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-image: url("http://h5.eleximg.com/a31/asset/image/timeBg.png");
+}
+.listCon
+{
+	position: absolute;
+    width: 57%;
+    height: 79%;
+    left: 3%;
+    top: 20%;
+    display: table;
+    text-align: left;
+}
+.listBtn
+{
+	position: absolute;
+	width: 31%;
+    height: 25%;
+    left: 60%;
+    top: 47%;
+    display: table;
+	text-align: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-image: url("http://h5.eleximg.com/a31/asset/image/btn1.jpg");	
+}
+.listBtn2
+{
+	position: absolute;
+	width: 31%;
+    height: 25%;
+    left: 60%;
+    top: 47%;
+    display: table;
+	text-align: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-image: url("http://h5.eleximg.com/a31/asset/image/btn7.jpg");	
+}
+.tipsTitle2
+{
+	position: absolute;
+	width: 94%;
+    height: 17%;
+    left: 3%;
+    top: 1%;
+    display: table;
+	text-align: center;
+}
+.ruleCon
+{
+	position: absolute;
+	width: 94%;
+    height: 76%;
+    left: 3%;
+    top: 21%;
+	text-align: left;
+	overflow-y: auto ;
+}
+.dialogCon
+{
+	position: absolute;
+	width: 94%;
+    height: 76%;
+    left: 3%;
+    top: 21%;
+    display: table;
+	text-align: center;
+}
+.tipsTitle1a
+{
+	position: absolute;
+	width: 18%;
+    height: 17%;
+    left: 2%;
+    top: 1%;
+    display: table;
+	text-align: center;
+}
+.tipsTitle1b
+{
+	position: absolute;
+	width: 25%;
+    height: 17%;
+    left: 20%;
+    top: 1%;
+    display: table;
+	text-align: center;
+}
+.tipsTitle1c
+{
+	position: absolute;
+	width: 37%;
+    height: 17%;
+    left: 45%;
+    top: 1%;
+    display: table;
+	text-align: center;
+}
+.tipsTitle1d
+{
+	position: absolute;
+	width: 18%;
+    height: 17%;
+    left: 82%;
+    top: 1%;
+    display: table;
+	text-align: center;
+}
+.recordCon
+{
+	position: absolute;
+	width: 94%;
+    height: 76%;
+    left: 3%;
+    top: 21%;
+	overflow-y: scroll ;
+}
+table {
+        margin: 0 auto;
+        width: 97%;
+        text-align: center;
+    }
+    tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+th {
+    font-weight: bold;
+    text-align: -internal-center;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+.trHeight
+    {
+        height: 40px;
+        text-align: left;
+    }
+	.td1
+	{
+		width: 18%;
+		text-align: center;
+	}
+	.td2
+	{
+		width: 25%;
+		text-align: center;
+	}
+	.td3
+	{
+		width: 37%;
+		text-align: center;
+	}
+	.td4
+	{
+		width: 18%;
+		text-align: center;
+	}
+	.tipsTitle3
+	{
+		position: absolute;
+		width: 94%;
+		height: 21%;
+		left: 3%;
+		top: 1%;
+		display: table;
+		text-align: center;
+		font-size: 26px;
+	}
+	.myLL
+	{
+		position: absolute;
+		width: 94%;
+		height: 5%;
+		left: 3%;
+		top: 17%;
+		text-align: right;
+	}
+	.itemList
+	{
+		position: absolute;
+		width: 84%;
+		height: 70%;
+		left: 8%;
+		top: 25%;
+	}
+	.item
+	{
+		position: absolute;
+		width: 25%;
+		height: 30%;
+	}
+	.item1
+	{
+		left:0%;
+		top:0%;
+		
+	}
+	.item2
+	{
+		left:38%;
+		top:0%;
+		
+	}
+	.item3
+	{
+		left:77%;
+		top:0%;
+		
+	}
+	.item4
+	{
+		left:0%;
+		top:34%;
+		
+	}
+	.item5
+	{
+		left:38%;
+		top:34%;
+		
+	}
+	.item6
+	{
+		left:77%;
+		top:34%;
+		
+	}
+	.item7
+	{
+		left:0%;
+		top:68%;
+		
+	}
+	.item8
+	{
+		left:38%;
+		top:68%;
+		
+	}
+	.item9
+	{
+		left:77%;
+		top:68%;
+		
+	}
+	.itemImg1
+	{
+		background-image: url("http://h5.eleximg.com/a31/asset/image/itemB1.jpg");
+	}
+	.itemImg2
+	{
+		background-image: url("http://h5.eleximg.com/a31/asset/image/itemA2.jpg");
+	}
+	.itemImg3
+	{
+		background-image: url("http://h5.eleximg.com/a31/asset/image/itemA3.jpg");
+	}
+	.itemImg4
+	{
+		background-image: url("http://h5.eleximg.com/a31/asset/image/itemA4.jpg");
+	}
+	.itemImg5
+	{
+		background-image: url("http://h5.eleximg.com/a31/asset/image/itemA5.jpg");
+	}
+	.itemImg6
+	{
+		background-image: url("http://h5.eleximg.com/a31/asset/image/itemA6.jpg");
+	}
+	.itemImg7
+	{
+		background-image: url("http://h5.eleximg.com/a31/asset/image/itemA7.jpg");
+	}
+	.itemImg8
+	{
+		background-image: url("http://h5.eleximg.com/a31/asset/image/itemA8.jpg");
+	}
+	.itemImg9
+	{
+		background-image: url("http://h5.eleximg.com/a31/asset/image/itemA9.jpg");
+	}
+
+	.itemImg
+	{
+		position: absolute;
+		width: 85%;
+		height: 60%;
+		left: 2%;
+		top: 2%;
+		background-repeat: no-repeat;
+		background-size: contain;
+		
+	}
+	.itemBuyBtn
+	{
+		position: absolute;
+		width: 85%;
+		height: 22%;
+		left: 2%;
+		top: 64%;
+		text-align: center;
+		display: table;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-image: url("http://h5.eleximg.com/a31/asset/image/btn3.png");
+	}
+	.itemNeed
+	{
+		position: absolute;
+		width: 85%;
+		height: 15%;
+		left: 2%;
+		top: 87%;
+	}
+	.needNum
+	{
+		position: absolute;
+		width: 60%;
+		height: 96%;
+		left: 2%;
+		top: 2%;
+		text-align: right;
+		color: white;
+	}
+	.llIcon
+	{
+		position: absolute;
+		width: 27%;
+		height: 98%;
+		left: 65%;
+		top: 2%;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-image: url("http://h5.eleximg.com/a31/asset/image/longlin.png");
+	}
+	.betTitle
+	{
+		position: absolute;
+		width: 92%;
+		height: 15%;
+		left: 4%;
+		top: 24%;
+		text-align:center;
+	}
+	.betChoose
+	{
+		position: absolute;
+		width: 92%;
+		height: 15%;
+		left: 4%;
+		top: 50%;
+		text-align:center;
+	}
+	.chooseStr
+	{
+		position: absolute;
+		width: 30%;
+		height: 68%;
+		left: 4%;
+		top: 15%;
+		text-align:right;
+	}
+	.betNum
+	{
+		position: absolute;
+		width: 20%;
+   		 height: 68%;
+		left: 36%;
+		text-align: center;
+	}
+	.betBtn
+	{
+		position: absolute;
+		width: 20%;
+		height: 83%;
+		left: 60%;
+		display: table;
+		text-align: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-image: url("http://h5.eleximg.com/a31/asset/image/btn3.png");
+	}
+	.betTips
+	{
+		position: absolute;
+		width: 92%;
+		height: 27%;
+		left: 4%;
+		top: 64%;
+	}
+	.betGet1
+	{
+		position: absolute;
+		width:92%;
+		height: 20%;
+		left: 4%;
+		top: 10%;
+		text-align: center;
+	}
+	.betGet2
+	{
+		position: absolute;
+		width:38%;
+		height: 20%;
+		left: 62%;
+		top: 10%;
+		text-align: left;
+	}
+	.betstr
+	{
+		position: absolute;
+		width: 100%;
+		height: 19%;
+		top: 63%;
+		font-size: 12px;
+		text-align: left;
+		color: red;
+	}
+	.guessTitle1
+	{
+		position: absolute;
+		width:40%;
+	    height: 16%;
+    	top: 1%;
+		left: 3%;
+		text-align: center;
+		display: table;
+		font-size: 18px;
+	}
+	.guessTitle2
+	{
+		position: absolute;
+		width:40%;
+		height: 16%;
+   		 top: 1%;
+		left: 57%;
+		text-align: center;
+		display: table;
+		font-size: 18px;
+	}
+	.guessInfo1
+	{
+		position: absolute;
+		width:92%;
+		height: 10%;
+		top: 20%;
+		left: 4%;
+		text-align: right;
+	}
+	.guessBox
+	{
+		position: absolute;
+		width:92%;
+		height: 30%;
+	}
+	#guessBox2
+	{
+		top:50%;
+		left: 4%;
+	}
+	#guessBox3
+	{
+		top:74%;
+		left: 4%;
+		
+	}
+	#guessBox1
+	{
+		top:26%;
+		left: 4%;
+	}
+	.guessTitle
+	{
+		position: absolute;
+		width:100%;
+		height: 20%;
+		top: 3%;
+		text-align: left;
+	}
+	.guessBtn
+	{
+		width: 45%;
+		height: 50%;
+		display: table;
+		text-align: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-image: url("http://h5.eleximg.com/a31/asset/image/btn4.png");
+	}
+	.guessBtnBet
+	{
+		position: absolute;
+		width: 104%;
+		left: -2%;
+		top: -6%;
+		height: 124%;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-image: url("http://h5.eleximg.com/a31/asset/image/betBorder.png");
+	}
+	.guessBtnFlag
+	{
+		position: absolute;
+		width: 11%;
+		left: 83%;
+		top: 0%;
+		height: 60%;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-image: url("http://h5.eleximg.com/a31/asset/image/resImg.png");
+		display: none;
+	}
+	.beted
+	{
+		position: absolute;
+		width: 42%;
+		left: 29%;
+		top: 65%;
+		height: 26%;
+		display: table;
+		text-align: center;
+	}
+	.guessBtn1
+	{
+		position: absolute;
+		top: 27%;
+    	left: 3%;
+	}
+	.guessBtn2
+	{
+		position: absolute;
+		top: 27%;
+		left: 53%;
+	}
+	.btnUp
+	{
+		vertical-align: bottom;
+		display: table-cell;
+	}
+	.btnDown
+	{
+		vertical-align: top;
+		display: table-cell;
+	}
+	.guessUp
+	{
+		position: absolute;
+		width:100%;
+		height: 50%;
+		top: 0%;
+		display: table;
+	}
+	.guessDown
+	{
+		position: absolute;
+		width:100%;
+		height: 50%;
+		top: 50%;
+		display: table;
+	}
+	.exchangeTilte
+	{
+		position: absolute;
+		width:92%;
+		height: 20%;
+		top: 27%;
+		left: 4%;
+		text-align: center;
+	}
+	.exchangeInfo
+	{
+		position: absolute;
+		width:92%;
+		height: 13%;
+		top: 59%;
+		left: 4%;
+	}
+	.exchangeNum
+	{
+		position: absolute;
+		width: 22%;
+		height: 90%;
+		top: 5%;
+		left: 25%;
+		text-align: center;
+	}
+	.maxBtn
+	{
+		position: absolute;
+		width: 21%;
+		height: 100%;
+		top: 10%;
+		left: 56%;
+		display: table;
+		text-align: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-image: url("http://h5.eleximg.com/a31/asset/image/btn3.png");
+	}
+	.exchangeBtn
+	{
+		position: absolute;
+		width: 30%;
+		height: 15%;
+		top: 80%;
+		left: 35%;
+		display: table;
+		text-align: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-image: url("http://h5.eleximg.com/a31/asset/image/btn2.jpg");
+	}
+	.slogan
+	{
+		position: absolute;
+		width: 94%;
+		height: 6%;
+		top: 6%;
+		left: 3%;
+		font-size: 30px;
+	}
+	.fontStyle
+	{
+		text-align: center;
+		display: table;
+		background-image:-webkit-linear-gradient(bottom,red,#fd8403,yellow); 
+		-webkit-background-clip:text; 
+		background-clip: text;
+		-webkit-text-fill-color:transparent; 
+		font-weight: bold;
+	}
+	#blackPage{
+		background: rgba(0,0,0,0.6);
+		height: 1600px;
+		position: absolute;
+		width: 100%;
+		top: 0%;
+	}
+	.ui-slider-range { background: #2ead21; }
+	 .ui-slider-handle { border-color: #ef2929; }
+	 .slider
+	 {
+		 background: #160402;
+		 position: absolute;
+		width: 60%;
+		left: 20%;
+		top: 46%;
+	 }
+	 #betSlider{
+		 top:38%
+	 }
+	 .pageTitle
+	{
+		position: absolute;
+		width: 80%;
+		height: 7%;
+		top: 6%;
+		left: 10%;
+		background-repeat: no-repeat;
+		background-size: contain;
+		display: none;
+	}
+	.llTitle
+	{
+		position: absolute;
+		width: 80%;
+		height: 8%;
+		top: 8%;
+		left: 10%;
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+	.shareIco {
+		position: absolute;
+		width: 11%;
+		left: 88%;
+		top: 9.5%;
+		height: 5%;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-image: url("http://h5.eleximg.com/a30/asset/image/shareIco.png");
+	}
+	.shareDia {
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-image: url("/a19/asset/image/shareDialog2.png");
+        position: absolute;
+        width: 439px;
+        height: 290px;
+        top: 40%;
+        z-index:200;
+    }
+	.fb
+	{
+		position: absolute;
+		width: 15%;
+		left: 17%;
+		top: 38%;
+		height: 24%;
+	}
+	.wx
+	{
+		position: absolute;
+		width: 15%;
+		left: 41%;
+		top: 38%;
+		height: 24%;
+	}
+	.pyq
+	{
+		position: absolute;
+		width: 15%;
+		left: 66%;
+		top: 38%;
+		height: 24%;
+	}
+	.noTips
+	{
+		text-align: center;
+		position: absolute;
+		width: 100%;
+		top: 10%;
+	}
+	.hotGuessLeftTime
+	{
+		position: absolute;
+		width: 28%;
+		height: 32%;
+		top: 3%;
+		left: 70%;
+	}
+	.singleGuessLeftTime
+	{
+		position: absolute;
+		width: 28%;
+		height: 6.5%;
+		top: 1%;
+		left: 70%;
+	}
+	.leftIcon
+	{
+		background-repeat: no-repeat;
+        background-size: contain;
+        background-image: url("/a31/asset/image/sl.png");
+        position: absolute;
+		width: 16%;
+		height: 60%;
+		top: 20%;
+        
+	}
+	.leftTimeStr1,.leftTimeStr2
+	{
+		position: absolute;
+		width: 80%;
+		height: 100%;
+		top: 1%;
+		left: 20%;
+		display: table;
+		text-align: left;
+	}
+</style>
+
+<style type="text/css">
+</style>
 </head>
+ 
 <body>
+	<section>
+		<section id="page1"  class="bg" onclick="cok.hideDialog()">
+			<div class="slogan fontStyle">
+				<span class="btnStr">Kuis Piala Dunia S3 CoK</span>
+			</div>
+			<div class="pageTitle">
 
+			</div>
+			<div class="shareIco" onclick="cok.showShareDia()"></div>
+			<div class="titleTab">
+				<div class="llShopStr" onclick="cok.clickLLShop()">
+					<span class="btnStr">Toko Sisik Naga</span>
+				</div>
+				<div class="llDetailStr" onclick="cok.showDetailList()">
+					<span class="btnStr">Detail Sisik Naga</span>
+				</div>
+				<div class="myLLStr">
+					<span class="btnStr myLLNum">Sisik Nagaku</span>
+				</div>
+			</div>
+			<div class="hotGuess">
+				<div class="hotGuessTitle">
+					<span class="btnStr">Kuis populer</span>
+				</div>
+				<div class="hotGuessLeftTime">
+					<div class="leftIcon"></div>
+					<div class="leftTimeStr1"><span class="btnStr">2D 23:59:59</span></div>
+				</div>
+				<span class="hotGuessStr">Juara Piala Dunia S3 CoK?</span>
+				<div class="hotGuessChoose">
+					<div class="hotGuessDrop">
+						<select id="drop">
+							
+						</select>
+					</div>
+					<div class="hotGuessBtn" onclick="cok.clickHotGuess()">
+						<span class="btnStr">Ulangan</span>
+					</div>
+				</div>
+			</div>
+			<div class="singleGuess">
+				<div class="singleGuessTitle">
+					<span class="btnStr">Kuis tunggal</span>
+				</div>
+				<div class="singleGuessLeftTime">
+					<div class="leftIcon"></div>
+					<div class="leftTimeStr2"><span class="btnStr">2D 23:59:59</span></div>
+				</div>
+				<div class="singleBtns">
+					<div class="sbtn sbtn1" onclick="cok.clickTab(1)">
+						<span class="btnStr">A-Top 8</span>
+					</div>
+					<div class="sbtn sbtn2"  onclick="cok.clickTab(2)">
+						<span class="btnStr">A-Semi-Final</span>
+					</div>
+					<div class="sbtn sbtn3"  onclick="cok.clickTab(3)">
+						<span class="btnStr">A-Final</span>
+					</div>
+					<div class="sbtn sbtn4"  onclick="cok.clickTab(4)">
+						<span class="btnStr">Semi final</span>
+					</div>
+					<div class="sbtn sbtn5"  onclick="cok.clickTab(5)">
+						<span class="btnStr">Terakhir</span>
+					</div>
+					
+				</div>
+				<div class="singleList1" style="display: none">
+				</div>
+				<div class="singleList2" style="display: none">
+				</div>
+				<div class="singleList3" style="display: none">
+				</div>
+				<div class="singleList4" style="display: none">
+				</div>
+				<div class="singleList5" style="display: none">
+				</div>
+				<div class="singleList6" style="display: none">
+				</div>
+			</div>
+		</section>
+		<section id="blackPage" class="bg" style="display: none;" onclick="cok.hideDialog()">
+		</section>
+		<section class="llShop" style="display: none;">
+			<div class="tipsTitle3  fontStyle">
+				<span class="tipsTitleStr">Toko Sisik Naga</span>
+			</div>
+			<div class="llTitle">
 
-<section class="recommand">
-	<article style="background-image:url('/activityCenter/asset/image/icon/n/recommand2_bg.png'),url('/activityCenter/asset/image/1595405868.jpg')">
-		<div class="title">Benteng Dominasi Dunia</div>
-		<span class="gift2"></span>
-		<a class="back" href="ecgWebviewClose://webViewAdpter?">&nbsp;</a>
-		<div class="cnt">
-			<a href="/a41/?uid=1812639737002093&regCountry=ID&lang=id&kingdom=1"><span class="btn btn2">Join now</span></a>
-			<div class="slogan">20vs20 tim nasional berpartisipasi.</div>
+			</div>
+			<div class="myLL">
+
+			</div>
+			<div class="itemList">
+				<div class="item item1">
+					<div class="itemImg itemImg1"></div>
+					<div class="itemBuyBtn" onclick="cok.buyItem(1)">
+						<span class="btnStr">Menebus</span>
+					</div>
+					<div class="itemNeed">
+						<span class="needNum">30000</span>
+						<div class="llIcon"></div>
+					</div>
+				</div>
+				<div class="item item2">
+					<div class="itemImg itemImg2"></div>
+					<div class="itemBuyBtn"  onclick="cok.buyItem(2)">
+						<span class="btnStr" >Menebus</span>
+					</div>
+					<div class="itemNeed">
+						<span class="needNum">300</span>
+						<div class="llIcon"></div>
+					</div>
+				</div>
+				<div class="item item3">
+					<div class="itemImg itemImg3"></div>
+					<div class="itemBuyBtn"  onclick="cok.buyItem(3)">
+						<span class="btnStr">Menebus</span>
+					</div>
+					<div class="itemNeed">
+						<span class="needNum">100</span>
+						<div class="llIcon"></div>
+					</div>
+				</div>
+				<div class="item item4">
+					<div class="itemImg itemImg4"></div>
+					<div class="itemBuyBtn"  onclick="cok.buyItem(4)">
+						<span class="btnStr">Menebus</span>
+					</div>
+					<div class="itemNeed">
+						<span class="needNum">100</span>
+						<div class="llIcon"></div>
+					</div>
+				</div>
+				<div class="item item5">
+					<div class="itemImg itemImg5"></div>
+					<div class="itemBuyBtn"  onclick="cok.buyItem(5)">
+						<span class="btnStr">Menebus</span>
+					</div>
+					<div class="itemNeed">
+						<span class="needNum">100</span>
+						<div class="llIcon"></div>
+					</div>
+				</div>
+				<div class="item item6">
+					<div class="itemImg itemImg6"></div>
+					<div class="itemBuyBtn"  onclick="cok.buyItem(6)">
+						<span class="btnStr">Menebus</span>
+					</div>
+					<div class="itemNeed">
+						<span class="needNum">100</span>
+						<div class="llIcon"></div>
+					</div>
+				</div>
+				<div class="item item7">
+					<div class="itemImg itemImg7"></div>
+					<div class="itemBuyBtn"  onclick="cok.buyItem(7)">
+						<span class="btnStr">Menebus</span>
+					</div>
+					<div class="itemNeed">
+						<span class="needNum">100</span>
+						<div class="llIcon"></div>
+					</div>
+				</div>
+				<div class="item item8">
+					<div class="itemImg itemImg8"></div>
+					<div class="itemBuyBtn"  onclick="cok.buyItem(8)">
+						<span class="btnStr">Menebus</span>
+					</div>
+					<div class="itemNeed">
+						<span class="needNum">100</span>
+						<div class="llIcon"></div>
+					</div>
+				</div>
+				<div class="item item9">
+					<div class="itemImg itemImg9"></div>
+					<div class="itemBuyBtn"  onclick="cok.buyItem(9)">
+						<span class="btnStr">Menebus</span>
+					</div>
+					<div class="itemNeed">
+						<span class="needNum">100</span>
+						<div class="llIcon"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="guessDialog" style="display: none;" onclick="cok.hidetipsNormal()">
+			<div class="guessTitle1">
+				<span class="tipsTitleStr team1Str">ABC100</span>
+			</div>
+			<div class="guessTitle2">
+				<span class="tipsTitleStr team2Str">ABC100</span>
+			</div>
+			<span class="guessInfo1"></span>
+			<div class="guessBox" id="guessBox1">
+				<span class="guessTitle">Aliansi pemenang putaran ini adalah?</span>
+				<div class="guessBtn guessBtn1" onclick="cok.clickGuessBox(1,-1)" id="guessBtn11">
+					<div class="guessBtnBet">
+						<div class="beted">
+							<span class="btnStr"></span>
+						</div>
+					</div>
+					<div class="guessBtnFlag"></div>
+					<div class="guessUp">
+						<span class="btnUp" id="guessA1"></span>
+					</div>
+					<div class="guessDown">
+						<span class="btnDown" id="guessB1"></span>
+					</div>
+				</div>
+				<div class="guessBtn guessBtn2"  onclick="cok.clickGuessBox(1,1)" id="guessBtn12">
+					<div class="guessBtnBet">
+						<div class="beted">
+							<span class="btnStr"></span>
+						</div>
+					</div>
+					<div class="guessBtnFlag"></div>
+					<div class="guessUp">
+						<span class="btnUp" id="guessC1"></span>
+					</div>
+					<div class="guessDown">
+						<span class="btnDown" id="guessD1"></span>
+					</div>
+				</div>
+			</div>
+			<div class="guessBox" id="guessBox2">
+					<span class="guessTitle">Aliansi yang memenangkan tambang kristal pertama di babak ini?</span>
+					<div class="guessBtn guessBtn1" onclick="cok.clickGuessBox(2,-1)" id="guessBtn21">
+						<div class="guessBtnBet">
+							<div class="beted">
+								<span class="btnStr"></span>
+							</div>
+						</div>
+						<div class="guessBtnFlag"></div>
+						<div class="guessUp">
+							<span class="btnUp" id="guessA2"></span>
+						</div>
+						<div class="guessDown">
+							<span class="btnDown" id="guessB2"></span>
+						</div>
+					</div>
+					<div class="guessBtn guessBtn2"  onclick="cok.clickGuessBox(2,1)" id="guessBtn22">
+						<div class="guessBtnBet">
+							<div class="beted">
+								<span class="btnStr"></span>
+							</div>
+						</div>
+						<div class="guessBtnFlag"></div>
+						<div class="guessUp">
+							<span class="btnUp" id="guessC2"></span>
+						</div>
+						<div class="guessDown">
+							<span class="btnDown" id="guessD2"></span>
+						</div>
+					</div>
+				</div>
+				<div class="guessBox" id="guessBox3">
+						<span class="guessTitle">Kesenjangan skor akhir antara dua sisi di babak ini adalah?</span>
+						<div class="guessBtn guessBtn1" onclick="cok.clickGuessBox(3,-1)" id="guessBtn31">
+							<div class="guessBtnBet">
+								<div class="beted">
+									<span class="btnStr"></span>
+								</div>
+							</div>
+							<div class="guessBtnFlag"></div>
+							<div class="guessUp">
+								<span class="btnUp" id="guessA3"></span>
+							</div>
+							<div class="guessDown">
+								<span class="btnDown" id="guessB3"></span>
+							</div>
+						</div>
+						<div class="guessBtn guessBtn2"  onclick="cok.clickGuessBox(3,1)" id="guessBtn32">
+							<div class="guessBtnBet">
+								<div class="beted">
+									<span class="btnStr"></span>
+								</div>
+							</div>
+							<div class="guessBtnFlag"></div>
+							<div class="guessUp">
+								<span class="btnUp" id="guessC3"></span>
+							</div>
+							<div class="guessDown">
+								<span class="btnDown" id="guessD3"></span>
+							</div>
+						</div>
+					</div>
+		</section>
+		<section class="tipsNormal" style="display: none;" id="bet">
+			<div class="tipsTitle2">
+				<span class="tipsTitleStr">Prediksi Pertandingan</span>
+			</div>
+			<span class="betTitle"></span>
+			<div class="slider" id="betSlider" style="border:1 px; color:#f6931f;"></div>
+			<div class="betChoose">
+				<span class="chooseStr" style="display: none">Pilih</span>
+				<input type="text" name="betNum" class="betNum" id="betNum" onkeyup="cok.chooseBetNum()" οninput="value=value.replace(/[^\d]/g,'')"/>
+				<div class="betBtn" onclick="cok.submitBet()">
+					<span class="btnStr">Konfirmasi</span>
+				</div>
+			</div>
+			<div class="betTips">
+				<span class="betGet1"></span>
+				<span class="betstr">Kiat: Peluang saat ini hanya untuk referensi, dan keuntungan akan dihitung berdasarkan peluang akhir di akhir kuis</span>
+			</div>
+		</section>
+		<section class="tipsNormal" style="display: none" id="record">
+			<div class="tipsTitle1a">
+				<span class="tipsTitleStr">Waktu</span>
+			</div>
+			<div class="tipsTitle1b">
+				<span class="tipsTitleStr">Tipe</span>
+			</div>
+			<div class="tipsTitle1c">
+				<span class="tipsTitleStr">Detail</span>
+			</div>
+			<div class="tipsTitle1d">
+				<span class="tipsTitleStr">Sisik Naga</span>
+			</div>
+          <div class="recordCon">
+			  <span class="noTips" style="display: none">Tidak ada detail Sisik Naga!</span>
+				<table class="table2" border rules=none cellspacing=0 align=center>
+				</table>
+		  </div>
+		</section>
+		<section class="tipsNormal" style="display: none" id="exchange">
+			<div class="tipsTitle2">
+				<span class="tipsTitleStr">Menebus</span>
+			</div>
+			<span class="exchangeTilte"></span>
+			<div class="slider" id="exchangeSlider" style="border:1 px; color:#f6931f;"></div>
+			<div class="exchangeInfo">
+				<input type="text" name="exchangeNum" class="exchangeNum" id="exchangeNum"/>
+				<div class="maxBtn" onclick="cok.exchangeMax()">
+					<span class="btnStr">Maks</span>
+				</div>
+			</div>
+			<div class="exchangeBtn" onclick="cok.exchange()">
+				<span class="btnStr">Konfirmasikan untuk menebus</span>
+			</div>
+
+		</section>
+		<section class="tipsNormal" style="display: none" id="rules">
+			<div class="tipsTitle2">
+				<span class="tipsTitleStr">Aturan acara</span>
+			</div>
+			<div class="ruleCon">
+				<span class="ruleStr">
+					1. Pemain akan mendapatkan Sisim Naga dari sistem setiap hari, jumlahnya tergantung pada Poin Aktif di "Tantangan Harian" kemarin, 1 Poin Aktif = 1 Skala Naga, Anda dapat memperoleh 500 Sisik Naga dari ini paling banyak setiap hari.  (Segarkan pada waktu sistem 5:00 setiap hari)<br>
+					2. Pemain dapat berulang kali menaikkan atau bertaruh untuk dua tim lawan<br>
+					3. Kuis tunggal untuk sesi saat ini akan berakhir pada waktu sistem 23:00 pada hari Rabu dan Sabtu<br>
+					4. Hasilnya akan diselesaikan sesuai dengan menang atau kalah dalam waktu 24 jam setelah pertandingan berakhir<br>
+					5. Sisik Naga dapat digunakan untuk menebus item di [Toko Sisik Naga]<br>
+					6. Setelah hasil kuis diumumkan, pemain yang menebak salah akan kehilangan semua skala naga yang dia bertaruh, dan pemain yang menebak dengan benar akan mendapatkan skala naga berdasarkan jumlah taruhan * peluang (peluang akan didasarkan pada  tetap  di akhir kuis)<br>
+					7. Hanya rincian Sisik Naga dalam seminggu akan ditampilkan<br>
+					8. Acara ini hanya tersedia untuk pemain yang memiliki kastil Lv.  26 ke atas<br>
+					9.Setelah bertaruh, logo perbatasan pada opsi di bawah kuis akan menampilkan opsi taruhan dan jumlah yang diinvestasikan;  setelah hasil acara diselesaikan, opsi yang ditandai oleh bendera merah kecil akan menjadi hasil pertandingan<br>
+					10.Clash of Kings Game Studio berhak atas interpretasi akhir acara ini<br>
+				</span>
+			</div>
+		</section>
+		<section class="tipsNormal" style="display: none" id="dialogBox">
+			<div class="tipsTitle2">
+				<span class="tipsTitleStr">Prediksi Pertandingan</span>
+			</div>
+			<div class="dialogCon">
+				<span class="dialogStr"></span>
+			</div>
+		</section>
+		<section class="shareDia" style="display: none">
+			<span class="fb" onclick="cok.share(1)"></span>
+			<span class="wx" onclick="cok.share(2)"></span>
+			<span class="pyq" onclick="cok.share(4)"></span>
+		</section>
+		<section class="title">
+			<span id="backBtn"  onclick="cok.backClick()"></span>
+			<span id="tipsBtn"  onclick="cok.clickTipsDialog()"></span>
+		</section>
+	</section>
+
+	<div id="dialog" class="dialog" title="Reward" style="display: none">
+			<div class="inner">
+				<i>
+					<div class="closeBtn" id="closeBtn" onclick="cok.hideDialog(1)"></div>
+					<div class="normalTipsD">
+						<span class="normalTips"></span>
+					</div>
+				</i>  
+			</div>
 		</div>
-	</article>
-</section>
-
-
-
-<section class="item">
-	<div class="title">
-		Ulang Tahun ke-6 COK<span class="hot"></span>
-	</div>		
-	<div class="col thumbnail" style="background-image:url('/activityCenter/asset/image/1594117261.jpg')">
-		<span>Participants: 228083</span>
-	</div>
-	<div class="col reward">
-		<div class="inner">
-			<b>Reward</b>
-			<i class="i16"></i><i class="i17"></i><i class="i18 ii"></i>
-		</div>
-		<div class="wrapper">
-			<a href="/a39/?uid=1812639737002093&regCountry=ID&lang=id&kingdom=1"><span class="btn btn1">Join now</span></a>
-		</div>
-	</div>
-	<div class="clear abstract">
-		Acara peringatan dini, bergabung untuk mengumpulkan bingkai  peringatan dan kejutan besar lainnya!
-	</div>
-</section>
-
-
-<section class="item">
-	<div class="title">
-		Kuis Piala Dunia S3 CoK<span class=""></span>
-	</div>		
-	<div class="col thumbnail" style="background-image:url('/activityCenter/asset/image/1583223626.jpg')">
-		<span>Participants: 181644</span>
-	</div>
-	<div class="col reward">
-		<div class="inner">
-			<b>Reward</b>
-			<i class="i2"></i><i class="i5"></i><i class="i6 ii"></i>
-		</div>
-		<div class="wrapper">
-			<a href="/a31/?uid=1812639737002093&regCountry=ID&lang=id&kingdom=1"><span class="btn btn1">Join now</span></a>
-		</div>
-	</div>
-	<div class="clear abstract">
-		Mari menjadi saksi di final!
-	</div>
-</section>
-
-
-<section class="item">
-	<div class="title">
-		S3 World Cup Road to Championship<span class=""></span>
-	</div>		
-	<div class="col thumbnail" style="background-image:url('/activityCenter/asset/image/1592820364.jpg')">
-		<span>Participants: 112474</span>
-	</div>
-	<div class="col reward">
-		<div class="inner">
-			<b>Reward</b>
-			
-		</div>
-		<div class="wrapper">
-			<a href="/a30/?uid=1812639737002093&regCountry=ID&lang=id&kingdom=1"><span class="btn btn1">Join now</span></a>
-		</div>
-	</div>
-	<div class="clear abstract">
-		Fair competition of strategy and teamwork
-	</div>
-</section>
-
-
-<section class="item">
-	<div class="title">
-		Piala Dunia Internasional<span class="hot"></span>
-	</div>		
-	<div class="col thumbnail" style="background-image:url('/activityCenter/asset/image/1590656628.jpg')">
-		<span>Participants: 289093</span>
-	</div>
-	<div class="col reward">
-		<div class="inner">
-			<b>Reward</b>
-			<i class="i1"></i><i class="i2"></i><i class="i3 ii"></i>
-		</div>
-		<div class="wrapper">
-			<a href="/a37/?uid=1812639737002093&regCountry=ID&lang=id&kingdom=1"><span class="btn btn1">Join now</span></a>
-		</div>
-	</div>
-	<div class="clear abstract">
-		Piala Dunia Internasional, hadiah terus berdatangan!
-	</div>
-</section>
-
-
-<section class="item">
-	<div class="title">
-		Knight's Round Table<span class=""></span>
-	</div>		
-	<div class="col thumbnail" style="background-image:url('/activityCenter/asset/image/1561628706.jpg')">
-		<span>Participants: 0</span>
-	</div>
-	<div class="col reward">
-		<div class="inner">
-			<b>Reward</b>
-			<i class="i6"></i><i class="i10"></i>
-		</div>
-		<div class="wrapper">
-			<a href="/x/c.php?uid=1812639737002093&regCountry=ID&lang=id&kingdom=1"><span class="btn btn1">Join now</span></a>
-		</div>
-	</div>
-	<div class="clear abstract">
-		Host a meet-up in your city! Make new friends, share your strategies, have a great time!
-	</div>
-</section>
-
-
-<section class="item">
-	<div class="title">
-		Hall of Fame S7<span class=""></span>
-	</div>		
-	<div class="col thumbnail" style="background-image:url('/activityCenter/asset/image/1575527541.jpg')">
-		<span>Participants: 423548</span>
-	</div>
-	<div class="col reward">
-		<div class="inner">
-			<b>Reward</b>
-			<i class="i2"></i><i class="i3"></i><i class="i7 ii"></i>
-		</div>
-		<div class="wrapper">
-			<a href="/a25/?uid=1812639737002093&regCountry=ID&lang=id&kingdom=1"><span class="btn btn1">Join now</span></a>
-		</div>
-	</div>
-	<div class="clear abstract">
-		We hope that players from all over the world could get to know each other.
-	</div>
-</section>
-
-
-<section class="item">
-	<div class="title">
-		Strategy Site<span class=""></span>
-	</div>		
-	<div class="col thumbnail" style="background-image:url('/activityCenter/asset/image/1563521524.jpg')">
-		<span>Participants: 365422</span>
-	</div>
-	<div class="col reward">
-		<div class="inner">
-			<b>Reward</b>
-			
-		</div>
-		<div class="wrapper">
-			<a href="/a19/?uid=1812639737002093&regCountry=ID&lang=id&kingdom=1"><span class="btn btn1">Join now</span></a>
-		</div>
-	</div>
-	<div class="clear abstract">
-		We want to build a platform that contains various strategies and hope it will be helpful!
-	</div>
-</section>
-
-
-<section class="item">
-	<div class="title">
-		Gift code exchange center<span class=""></span>
-	</div>		
-	<div class="col thumbnail" style="background-image:url('/activityCenter/asset/image/1557226604.jpg')">
-		<span>Participants: 87534</span>
-	</div>
-	<div class="col reward">
-		<div class="inner">
-			<b>Reward</b>
-			
-		</div>
-		<div class="wrapper">
-			<a href="/a12/?uid=1812639737002093&regCountry=ID&lang=id&kingdom=1"><span class="btn btn1">Join now</span></a>
-		</div>
-	</div>
-	<div class="clear abstract">
-		Gift code exchange center
-	</div>
-</section>
-
-
-<section class="item">
-	<div class="title">
-		Points store<span class=""></span>
-	</div>		
-	<div class="col thumbnail" style="background-image:url('/activityCenter/asset/image/1594798159.jpg')">
-		<span>Participants: 557070</span>
-	</div>
-	<div class="col reward">
-		<div class="inner">
-			<b>Reward</b>
-			<i class="i6"></i><i class="i10"></i><i class="i11 ii"></i>
-		</div>
-		<div class="wrapper">
-			<a href="/store/?uid=1812639737002093&regCountry=ID&lang=id&kingdom=1"><span class="btn btn1">Join now</span></a>
-		</div>
-	</div>
-	<div class="clear abstract">
-		Signing in, staying online and recharging can earn you points for redeeming rare items. Stay tuned!
-	</div>
-</section>
-
-
-<section class="item">
-	<div class="title">
-		Sign-in Milestone<span class=""></span>
-	</div>		
-	<div class="col thumbnail" style="background-image:url('/activityCenter/asset/image/1561628807.jpg')">
-		<span>Participants: 1146862</span>
-	</div>
-	<div class="col reward">
-		<div class="inner">
-			<b>Reward</b>
-			<i class="i15"></i>
-		</div>
-		<div class="wrapper">
-			<a href="/a00/?uid=1812639737002093&regCountry=ID&lang=id&kingdom=1"><span class="btn btn1">Join now</span></a>
-		</div>
-	</div>
-	<div class="clear abstract">
-		Accumulate sign-in days to collect a precious nameplate, sign-in to unlock achievements and stamps
-	</div>
-</section>
-
-
-	<script type="text/javascript">
-		(function(){
-			var btnHeight = parseInt($("section.recommand .btn").width()*83/327);
-			var articleHeight = parseInt($("section").width()*800/1080);
-			var titleHeight = parseInt(articleHeight*0.12);
-			var giftHeight = parseInt($("section").width()*0.16);
-			$("section.recommand article").css("height",articleHeight);
-			$("section.recommand .title").css({"height":titleHeight,"line-height":titleHeight+"px"});
-			$("section.recommand .btn").css({"height":btnHeight,"line-height":(btnHeight*0.8)+"px"});
-			$("section.recommand .gift").css({"height":giftHeight,"width":giftHeight+1});
-			$("section.recommand .gift2").css({"height":giftHeight,"width":giftHeight+1});
-		})();
+	<div id="tj" class="invisble" style="display: none"></div>
+	<script>
+	$( function() {
+		$( "#exchangeSlider" ).slider({
+		range: "min",
+		value: 0,
+		min: 0,
+		max: 100,
+		slide: function( event, ui ) {
+			$( "#exchangeNum" ).val( ui.value );
+		}
+	});
+	$( "#betSlider" ).slider({
+		range: "min",
+		value: 0,
+		min: 0,
+		max: 100,
+		slide: function( event, ui ) {
+			$( "#betNum" ).val( ui.value );
+			cok.chooseBetNum();
+		}
+	});
+	} );
 	</script>
 	<script type="text/javascript">
-		(function(){
-			var colHeight = parseInt($("section.item .col").width()*758/1080);
-			var rewardHeight = parseInt($("section.item i").width());
-			var titleHeight = parseInt($("section").width()*91/1080);
-			var btnHeight = parseInt($("section.item .btn").width()*72/264);
-			$("section.item .col").css("height",colHeight);
-			$("section.item i").css("height",rewardHeight);
-			$("section.item .title").css({"height":titleHeight,"line-height":titleHeight+"px"});
-			$("section.item .hot").css({"height":titleHeight*1.2,"width":titleHeight*1.2});
-			$("section.item .new").css({"height":titleHeight*1.2,"width":titleHeight*1.2});
-			$("section.item .btn").css({"height":btnHeight,"line-height":btnHeight+"px"});
-		})();
+		var cok = cok || {};
+		cok.profileUid = "1812639737002093";
+		cok.profileLang = "id";
+		cok.profileCountry = "ID";
+		cok.profileKingdom = "1";
+		cok.statusOfActivity = "0";
+		cok.profileRecord = "{param.profileRecord}";
+		cok.profileExt0 = "{param.profileExt0}";
+		cok.profileRecord2 = "{param.profileRecord2}";
+		cok.profileNum = "538";
+		cok.ts = "3132236";
+		cok.ts2 = "3132236";
+		cok.profileN1 = "0";
+		cok.profileN2 = "1";
+		cok.profileN3 = "15";
+		cok.profileN4 = "0";
+		cok.profileN5 = "0";
+		cok.profileN6 = "0";
+		cok.profileN7 = "33";
+		cok.profileN8 = "35";
+		cok.profileN9 = "50";
+		cok.isInList = "0";
+		cok.level = 25;
+		cok.product = {"1":{"cost":30000,"limit":1},"2":{"cost":300,"limit":10},"3":{"cost":100,"limit":15},"4":{"cost":100,"limit":50},"5":{"cost":100,"limit":35},"6":{"cost":100,"limit":80},"7":{"cost":100,"limit":50},"8":{"cost":100,"limit":35},"9":{"cost":100,"limit":50}};
+		cok.bet = {"1":{"-1":"1.60","1":"2.68"},"2":{"-1":"1.84","1":"2.20"},"3":{"-1":"2.16","1":"1.86"},"4":{"-1":"1.78","1":"2.28"},"5":{"-1":"1.94","1":"2.07"},"6":{"-1":"2.08","1":"1.92"},"7":{"-1":"1.54","1":"2.84"},"8":{"-1":"1.76","1":"2.31"},"9":{"-1":"2.42","1":"1.70"},"10":{"-1":"2.00","1":"2.00"},"11":{"-1":"2.01","1":"1.99"},"12":{"-1":"2.03","1":"1.97"},"13":{"-1":"1.62","1":"2.62"},"14":{"-1":"1.87","1":"2.14"},"15":{"-1":"2.12","1":"1.89"},"16":{"-1":"1.53","1":"2.89"},"17":{"-1":"1.68","1":"2.47"},"18":{"-1":"2.01","1":"1.99"},"19":{"-1":"1.28","1":"4.60"},"20":{"-1":"1.65","1":"2.54"},"21":{"-1":"2.07","1":"1.94"},"22":{"-1":"1.68","1":"2.47"},"23":{"-1":"1.90","1":"2.11"},"24":{"-1":"2.01","1":"1.99"},"25":{"-1":"1.80","1":"2.25"},"26":{"-1":"1.98","1":"2.02"},"27":{"-1":"2.08","1":"1.93"},"28":{"-1":"2.00","1":"2.00"},"29":{"-1":"2.04","1":"1.96"},"30":{"-1":"2.03","1":"1.97"},"31":{"-1":"1.76","1":"2.32"},"32":{"-1":"2.01","1":"1.99"},"33":{"-1":"2.06","1":"1.94"},"34":{"-1":"2.03","1":"1.97"},"35":{"-1":"1.99","1":"2.01"},"36":{"-1":"2.08","1":"1.93"},"37":{"-1":"1.96","1":"2.04"},"38":{"-1":"1.91","1":"2.09"},"39":{"-1":"2.08","1":"1.93"},"40":{"-1":"1.78","1":"2.27"},"41":{"-1":"1.89","1":"2.13"},"42":{"-1":"1.98","1":"2.02"},"43":{"-1":"1.95","1":"2.05"},"44":{"-1":"2.01","1":"1.99"},"45":{"-1":"1.99","1":"2.01"},"46":{"-1":"1.48","1":"3.09"},"47":{"-1":"1.80","1":"2.26"},"48":{"-1":"2.06","1":"1.95"},"0":{"1":"4.47","2":"19.72","3":"21.81","4":"30.81","5":"13.94","6":"26.99","7":"29.32","8":"44.13","9":"25.01","10":"83.53","11":"29.09","12":"113.70","13":"7.36","14":"70.20","15":"49.18","16":"178.54","17":"28.59","18":"61.65","19":"157.54","20":"77.74","21":"32.37","22":"49.94","23":"183.32","24":"87.37","25":"168.50","26":"148.44","27":"98.92","28":"119.57","29":"166.10","30":"132.66","31":"50.07","32":"133.78","33":"5250820.00","34":"5250820.00","35":"5250820.00","36":"5250820.00","37":"5250820.00","38":"5250820.00","39":"5250820.00","40":"5250820.00","41":"5250820.00","42":"5250820.00","43":"5250820.00","44":"5250820.00","45":"5250820.00","46":"5250820.00","47":"5250820.00","48":"5250820.00"},"49":{"-1":"2.46","1":"1.68"},"50":{"-1":"2.12","1":"1.90"},"51":{"-1":"2.36","1":"1.73"},"52":{"-1":"3.22","1":"1.45"},"53":{"-1":"2.65","1":"1.61"},"54":{"-1":"2.95","1":"1.51"},"55":{"-1":"2.24","1":"1.81"},"56":{"-1":"2.14","1":"1.88"},"57":{"-1":"2.42","1":"1.70"},"58":{"-1":"4.30","1":"1.30"},"59":{"-1":"2.71","1":"1.59"},"60":{"-1":"3.12","1":"1.47"},"61":{"-1":"1.57","1":"2.76"},"62":{"-1":"1.91","1":"2.10"},"63":{"-1":"2.76","1":"1.57"},"64":{"-1":"1.74","1":"2.35"},"65":{"-1":"1.99","1":"2.01"},"66":{"-1":"2.41","1":"1.71"},"67":{"-1":"2.27","1":"1.79"},"68":{"-1":"2.04","1":"1.96"},"69":{"-1":"2.39","1":"1.72"},"70":{"-1":"1.71","1":"2.40"},"71":{"-1":"1.94","1":"2.06"},"72":{"-1":"2.47","1":"1.68"},"73":{"-1":"3.52","1":"1.40"},"74":{"-1":"1.98","1":"2.02"},"75":{"-1":"2.81","1":"1.55"},"76":{"-1":"4.07","1":"1.33"},"77":{"-1":"2.99","1":"1.50"},"78":{"-1":"3.17","1":"1.46"},"79":{"-1":"2.48","1":"1.68"},"80":{"-1":"2.23","1":"1.81"},"81":{"-1":"2.56","1":"1.64"},"82":{"-1":"1.69","1":"2.46"},"83":{"-1":"1.84","1":"2.19"},"84":{"-1":"2.51","1":"1.66"},"85":{"-1":"1.86","1":"2.16"},"86":{"-1":"1.98","1":"2.02"},"87":{"-1":"2.06","1":"1.94"},"88":{"-1":"1.56","1":"2.79"},"89":{"-1":"1.94","1":"2.07"},"90":{"-1":"2.06","1":"1.94"},"91":{"-1":"1.43","1":"3.30"},"92":{"-1":"1.68","1":"2.47"},"93":{"-1":"1.88","1":"2.13"}};
+		cok.bet2 = {"1":{"0":1247187,"-1":781169,"1":466018},"2":{"0":194192,"-1":105770,"1":88422},"3":{"0":214263,"-1":99158,"1":115105},"4":{"0":1274218,"-1":714141,"1":560077},"5":{"0":188552,"-1":97356,"1":91196},"6":{"0":199256,"-1":95578,"1":103678},"7":{"0":1683821,"-1":1091133,"1":592688},"8":{"0":264384,"-1":150002,"1":114382},"9":{"0":411615,"-1":169740,"1":241875},"10":{"0":883990,"-1":442005,"1":441985},"11":{"0":192570,"-1":95721,"1":96849},"12":{"0":207146,"-1":102251,"1":104895},"13":{"0":1178919,"-1":728684,"1":450235},"14":{"0":205267,"-1":109485,"1":95782},"15":{"0":193842,"-1":91357,"1":102485},"16":{"0":1356518,"-1":886620,"1":469898},"17":{"0":251867,"-1":150086,"1":101781},"18":{"0":261284,"-1":130310,"1":130974},"19":{"0":3193523,"-1":2498833,"1":694690},"20":{"0":501899,"-1":304513,"1":197386},"21":{"0":647951,"-1":313595,"1":334356},"22":{"0":1022118,"-1":608768,"1":413350},"23":{"0":200605,"-1":105400,"1":95205},"24":{"0":198146,"-1":98355,"1":99791},"25":{"0":1353406,"-1":751639,"1":601767},"26":{"0":175987,"-1":88732,"1":87255},"27":{"0":231496,"-1":111489,"1":120007},"28":{"0":872649,"-1":435511,"1":437138},"29":{"0":209956,"-1":102895,"1":107061},"30":{"0":218193,"-1":107533,"1":110660},"31":{"0":1249253,"-1":710616,"1":538637},"32":{"0":204206,"-1":101458,"1":102748},"33":{"0":215132,"-1":104367,"1":110765},"34":{"0":894464,"-1":441473,"1":452991},"35":{"0":162103,"-1":81352,"1":80751},"36":{"0":197519,"-1":95087,"1":102432},"37":{"0":706535,"-1":359659,"1":346876},"38":{"0":214721,"-1":112215,"1":102506},"39":{"0":167303,"-1":80475,"1":86828},"40":{"0":911045,"-1":510548,"1":400497},"41":{"0":155554,"-1":82456,"1":73098},"42":{"0":157171,"-1":79212,"1":77959},"43":{"0":679583,"-1":347981,"1":331602},"44":{"0":134751,"-1":66924,"1":67827},"45":{"0":159755,"-1":80358,"1":79397},"46":{"0":770401,"-1":521248,"1":249153},"47":{"0":132816,"-1":73975,"1":58841},"48":{"0":145671,"-1":70837,"1":74834},"0":{"1":1175377,"2":266267,"3":240709,"4":170415,"5":376728,"6":194574,"7":179116,"8":118983,"9":209931,"10":62863,"11":180523,"12":46182,"13":713499,"14":74802,"15":106766,"16":29410,"17":183636,"18":85174,"19":33331,"20":67547,"21":162230,"22":105143,"23":28643,"24":60101,"25":31162,"26":35373,"27":53081,"28":43916,"29":31612,"30":39582,"31":104878,"32":39250,"33":1,"34":1,"35":1,"36":1,"37":1,"38":1,"39":1,"40":1,"41":1,"42":1,"43":1,"44":1,"45":1,"46":1,"47":1,"48":1,"0":5250820},"49":{"0":2948702,"-1":1196437,"1":1752265},"50":{"0":480758,"-1":227238,"1":253520},"51":{"0":659993,"-1":279246,"1":380747},"52":{"0":4359319,"-1":1355198,"1":3004121},"53":{"0":683481,"-1":258126,"1":425355},"54":{"0":779822,"-1":263932,"1":515890},"55":{"0":3211083,"-1":1436257,"1":1774826},"56":{"0":559807,"-1":261714,"1":298093},"57":{"0":726220,"-1":299846,"1":426374},"58":{"0":8148081,"-1":1895010,"1":6253071},"59":{"0":1114331,"-1":411587,"1":702744},"60":{"0":1275575,"-1":408219,"1":867356},"61":{"0":3915075,"-1":2497015,"1":1418060},"62":{"0":526120,"-1":275538,"1":250582},"63":{"0":764831,"-1":277437,"1":487394},"64":{"0":3058705,"-1":1755636,"1":1303069},"65":{"0":498601,"-1":251071,"1":247530},"66":{"0":738860,"-1":307115,"1":431745},"67":{"0":2092206,"-1":920639,"1":1171567},"68":{"0":358319,"-1":175613,"1":182706},"69":{"0":475076,"-1":198648,"1":276428},"70":{"0":1316033,"-1":768059,"1":547974},"71":{"0":258015,"-1":132972,"1":125043},"72":{"0":398410,"-1":161109,"1":237301},"73":{"0":13543919,"-1":3849889,"1":9694030},"74":{"0":3492149,"-1":1761952,"1":1730197},"75":{"0":2690767,"-1":956083,"1":1734684},"76":{"0":21952103,"-1":5399958,"1":16552145},"77":{"0":3308296,"-1":1106196,"1":2202100},"78":{"0":3646237,"-1":1150844,"1":2495393},"79":{"0":9962368,"-1":4019686,"1":5942682},"80":{"0":1678481,"-1":752319,"1":926162},"81":{"0":2687142,"-1":1051524,"1":1635618},"82":{"0":5242628,"-1":3108591,"1":2134037},"83":{"0":1168169,"-1":635946,"1":532223},"84":{"0":1756784,"-1":699585,"1":1057199},"85":{"0":146772496,"-1":78873000,"1":67899496},"86":{"0":22947278,"-1":11582570,"1":11364708},"87":{"0":27674485,"-1":13417567,"1":14256918},"88":{"0":62041820,"-1":39811753,"1":22230067},"89":{"0":15246619,"-1":7877091,"1":7369528},"90":{"0":18163563,"-1":8821089,"1":9342474},"91":{"0":137788558,"-1":96071185,"1":41717373},"92":{"0":23872496,"-1":14201880,"1":9670616},"93":{"0":31046867,"-1":16470855,"1":14576012}};
+		cok.schedule = {"1":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"2":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"3":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"4":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"5":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"6":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"7":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"8":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"9":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"10":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"11":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"12":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"13":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"14":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"15":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"16":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"17":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"18":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"19":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"20":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"21":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"22":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"23":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"24":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"25":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"26":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"27":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"28":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"29":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"30":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"31":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"32":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"33":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"34":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"35":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"36":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"37":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"38":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"39":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"40":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"41":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":-1,"startTs":-2397364,"endTs":-2141764},"42":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"43":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"44":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"45":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"46":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"47":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"48":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":1,"startTs":-2397364,"endTs":-2141764},"0":{"start":"2020-06-29 00:00","end":"2020-07-01 23:00","status":0,"startTs":-2397364,"endTs":-2141764},"49":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"50":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"51":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"52":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"53":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"54":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"55":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":-1,"startTs":-2051764,"endTs":-1882564},"56":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":-1,"startTs":-2051764,"endTs":-1882564},"57":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"58":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"59":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":-1,"startTs":-2051764,"endTs":-1882564},"60":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"61":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"62":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"63":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":-1,"startTs":-2051764,"endTs":-1882564},"64":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"65":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"66":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"67":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"68":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"69":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"70":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":-1,"startTs":-2051764,"endTs":-1882564},"71":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":-1,"startTs":-2051764,"endTs":-1882564},"72":{"start":"2020-07-03 00:00","end":"2020-07-04 23:00","status":1,"startTs":-2051764,"endTs":-1882564},"73":{"start":"2020-07-07 00:00","end":"2020-07-08 23:00","status":1,"startTs":-1706164,"endTs":-1536964},"74":{"start":"2020-07-07 00:00","end":"2020-07-08 23:00","status":-1,"startTs":-1706164,"endTs":-1536964},"75":{"start":"2020-07-07 00:00","end":"2020-07-08 23:00","status":1,"startTs":-1706164,"endTs":-1536964},"76":{"start":"2020-07-07 00:00","end":"2020-07-08 23:00","status":-1,"startTs":-1706164,"endTs":-1536964},"77":{"start":"2020-07-07 00:00","end":"2020-07-08 23:00","status":-1,"startTs":-1706164,"endTs":-1536964},"78":{"start":"2020-07-07 00:00","end":"2020-07-08 23:00","status":1,"startTs":-1706164,"endTs":-1536964},"79":{"start":"2020-07-07 00:00","end":"2020-07-08 23:00","status":-1,"startTs":-1706164,"endTs":-1536964},"80":{"start":"2020-07-07 00:00","end":"2020-07-08 23:00","status":-1,"startTs":-1706164,"endTs":-1536964},"81":{"start":"2020-07-07 00:00","end":"2020-07-08 23:00","status":-1,"startTs":-1706164,"endTs":-1536964},"82":{"start":"2020-07-07 00:00","end":"2020-07-08 23:00","status":1,"startTs":-1706164,"endTs":-1536964},"83":{"start":"2020-07-07 00:00","end":"2020-07-08 23:00","status":1,"startTs":-1706164,"endTs":-1536964},"84":{"start":"2020-07-07 00:00","end":"2020-07-08 23:00","status":1,"startTs":-1706164,"endTs":-1536964},"85":{"start":"2020-07-10 00:00","end":"2020-07-22 23:00","status":-1,"startTs":-1446964,"endTs":-327364},"86":{"start":"2020-07-10 00:00","end":"2020-07-22 23:00","status":-1,"startTs":-1446964,"endTs":-327364},"87":{"start":"2020-07-10 00:00","end":"2020-07-22 23:00","status":-1,"startTs":-1446964,"endTs":-327364},"88":{"start":"2020-07-10 00:00","end":"2020-07-22 23:00","status":-1,"startTs":-1446964,"endTs":-327364},"89":{"start":"2020-07-10 00:00","end":"2020-07-22 23:00","status":1,"startTs":-1446964,"endTs":-327364},"90":{"start":"2020-07-10 00:00","end":"2020-07-22 23:00","status":1,"startTs":-1446964,"endTs":-327364},"91":{"start":"2020-07-24 00:00","end":"2020-07-25 23:00","status":0,"startTs":-237364,"endTs":-68164},"92":{"start":"2020-07-24 00:00","end":"2020-07-25 23:00","status":0,"startTs":-237364,"endTs":-68164},"93":{"start":"2020-07-24 00:00","end":"2020-07-25 23:00","status":0,"startTs":-237364,"endTs":-68164}};
+		cok.chooseId = -1;
+		cok.chooseGroup = 0;
+		cok.clickItemId = 0;
+		cok.recordList = [];
+		cok.clickTabIndex = 0;
+		cok.currentIndex = 0;
+		cok.timer =null;
+		cok.timer2 =null;
+		cok.itemName = ["Kastil Penjaga Zeus (Permanen, tidak bisa dihadiahkan) x1",
+		"Global Kristal Lanjutan x2",
+		"Prestise Badgex200",
+		"Kristal Peradaban x2400",
+		"Besi halus x4000",
+		"62.5K Mithrilx10",
+		"Percepatan penelitian Teknologi 2-Jam x 30",
+		"Batu Grapheme Naga Ix3000",
+		"Kristalx1600"]
+		cok.teamGroup64 = {
+			"1":{"kingdom1":"K223","kingdom2":"K763","allianceName1":"MTW","allianceName2":"AIW","id1":"1","id2":"2","id3":"3"},
+			"2":{"kingdom1":"K756","kingdom2":"K1816","allianceName1":"TEN","allianceName2":"Nic","id1":"4","id2":"5","id3":"6"},
+			"3":{"kingdom1":"K1816","kingdom2":"K473","allianceName1":"MAN","allianceName2":"W4Z","id1":"7","id2":"8","id3":"9"},
+			"4":{"kingdom1":"K28","kingdom2":"K242","allianceName1":"GR4","allianceName2":"Svt","id1":"10","id2":"11","id3":"12"},
+			"5":{"kingdom1":"K1391","kingdom2":"K763","allianceName1":"WPA","allianceName2":"TwN","id1":"13","id2":"14","id3":"15"},
+			"6":{"kingdom1":"K1341","kingdom2":"K532","allianceName1":"KUR","allianceName2":"Jak","id1":"16","id2":"17","id3":"18"},
+			"7":{"kingdom1":"K491","kingdom2":"K1221","allianceName1":"Deu","allianceName2":"BWA","id1":"19","id2":"20","id3":"21"},
+			"8":{"kingdom1":"K141","kingdom2":"K182","allianceName1":"GBR","allianceName2":"TT4","id1":"22","id2":"23","id3":"24"},
+			"9":{"kingdom1":"K2093","kingdom2":"K97","allianceName1":"AIC","allianceName2":"WAO","id1":"25","id2":"26","id3":"27"},
+			"10":{"kingdom1":"K265","kingdom2":"K336","allianceName1":"Kri","allianceName2":"red","id1":"28","id2":"29","id3":"30"},
+			"11":{"kingdom1":"K1127","kingdom2":"K639","allianceName1":"WAR","allianceName2":"COK","id1":"31","id2":"32","id3":"33"},
+			"12":{"kingdom1":"K336","kingdom2":"K582","allianceName1":"BOT","allianceName2":"MIT","id1":"34","id2":"35","id3":"36"},
+			"13":{"kingdom1":"K564","kingdom2":"K89","allianceName1":"ZZD","allianceName2":"F1G","id1":"37","id2":"38","id3":"39"},
+			"14":{"kingdom1":"K1089","kingdom2":"K1398","allianceName1":"KTF","allianceName2":"Pak","id1":"40","id2":"41","id3":"42"},
+			"15":{"kingdom1":"K1391","kingdom2":"K1089","allianceName1":"U04","allianceName2":"Roy","id1":"43","id2":"44","id3":"45"},
+			"16":{"kingdom1":"K491","kingdom2":"K336","allianceName1":"JIN","allianceName2":"FmO","id1":"46","id2":"47","id3":"48"},
+		}
+		cok.teamGroup32 = {
+			"1":{"kingdom1":"K223","kingdom2":"K763","allianceName1":"MTW","allianceName2":"AIW","id1":"1","id2":"2","id3":"3"},
+			"2":{"kingdom1":"K756","kingdom2":"K1816","allianceName1":"TEN","allianceName2":"Nic","id1":"4","id2":"5","id3":"6"},
+			"3":{"kingdom1":"K1816","kingdom2":"K473","allianceName1":"MAN","allianceName2":"W4Z","id1":"7","id2":"8","id3":"9"},
+			"4":{"kingdom1":"K28","kingdom2":"K242","allianceName1":"GR4","allianceName2":"Svt","id1":"10","id2":"11","id3":"12"},
+			"5":{"kingdom1":"K1391","kingdom2":"K763","allianceName1":"WPA","allianceName2":"TwN","id1":"13","id2":"14","id3":"15"},
+			"6":{"kingdom1":"K1341","kingdom2":"K532","allianceName1":"KUR","allianceName2":"Jak","id1":"16","id2":"17","id3":"18"},
+			"7":{"kingdom1":"K491","kingdom2":"K1221","allianceName1":"Deu","allianceName2":"BWA","id1":"19","id2":"20","id3":"21"},
+			"8":{"kingdom1":"K141","kingdom2":"K182","allianceName1":"GBR","allianceName2":"TT4","id1":"22","id2":"23","id3":"24"},
+			"9":{"kingdom1":"K2093","kingdom2":"K97","allianceName1":"AIC","allianceName2":"WAO","id1":"25","id2":"26","id3":"27"},
+			"10":{"kingdom1":"K265","kingdom2":"K336","allianceName1":"Kri","allianceName2":"red","id1":"28","id2":"29","id3":"30"},
+			"11":{"kingdom1":"K1127","kingdom2":"K639","allianceName1":"WAR","allianceName2":"COK","id1":"31","id2":"32","id3":"33"},
+			"12":{"kingdom1":"K336","kingdom2":"K582","allianceName1":"BOT","allianceName2":"MIT","id1":"34","id2":"35","id3":"36"},
+			"13":{"kingdom1":"K564","kingdom2":"K89","allianceName1":"ZZD","allianceName2":"F1G","id1":"37","id2":"38","id3":"39"},
+			"14":{"kingdom1":"K1089","kingdom2":"K1398","allianceName1":"KTF","allianceName2":"Pak","id1":"40","id2":"41","id3":"42"},
+			"15":{"kingdom1":"K1391","kingdom2":"K1089","allianceName1":"U04","allianceName2":"Roy","id1":"43","id2":"44","id3":"45"},
+			"16":{"kingdom1":"K491","kingdom2":"K336","allianceName1":"JIN","allianceName2":"FmO","id1":"46","id2":"47","id3":"48"},
+		}
+		cok.teamGroup16 = {
+			"1":{"kingdom1":"K763","kingdom2":"K1816","allianceName1":"AIW","allianceName2":"Nic","id1":"49","id2":"50","id3":"51"},
+			"2":{"kingdom1":"K28","kingdom2":"K1816","allianceName1":"GR4","allianceName2":"MAN","id1":"52","id2":"53","id3":"54"},
+			"3":{"kingdom1":"K1391","kingdom2":"K1341","allianceName1":"WPA","allianceName2":"KUR","id1":"55","id2":"56","id3":"57"},
+			"4":{"kingdom1":"K141","kingdom2":"K491","allianceName1":"GBR","allianceName2":"Deu","id1":"58","id2":"59","id3":"60"},
+			"5":{"kingdom1":"K2093","kingdom2":"K336","allianceName1":"AIC","allianceName2":"red","id1":"61","id2":"62","id3":"63"},
+			"6":{"kingdom1":"K582","kingdom2":"K1127","allianceName1":"MIT","allianceName2":"WAR","id1":"64","id2":"65","id3":"66"},
+			"7":{"kingdom1":"K564","kingdom2":"K1089","allianceName1":"ZZD","allianceName2":"KTF","id1":"67","id2":"68","id3":"69"},
+			"8":{"kingdom1":"K336","kingdom2":"K1089","allianceName1":"FmO","allianceName2":"Roy","id1":"70","id2":"71","id3":"72"},
+		}
+		cok.teamGroup8 = {
+			"1":{"kingdom1":"K1816","kingdom2":"K1816","allianceName1":"Nic","allianceName2":"MAN","id1":"73","id2":"74","id3":"75"},
+			"2":{"kingdom1":"K1391","kingdom2":"K491","allianceName1":"WPA","allianceName2":"Deu","id1":"76","id2":"77","id3":"78"},
+			"3":{"kingdom1":"K336","kingdom2":"K511","allianceName1":"red","allianceName2":"WAR","id1":"79","id2":"80","id3":"81"},
+			"4":{"kingdom1":"K1089","kingdom2":"K336","allianceName1":"KTF","allianceName2":"FmO","id1":"82","id2":"83","id3":"84"},
+		}
+		cok.teamGroup4 = {
+			"1":{"kingdom1":"K1816","kingdom2":"K1391","allianceName1":"MAN","allianceName2":"WPA","id1":"85","id2":"86","id3":"87"},
+			"2":{"kingdom1":"K336","kingdom2":"K336","allianceName1":"red","allianceName2":"FmO","id1":"88","id2":"89","id3":"90"},
+		}
+		cok.teamGroup2 = {
+			"1":{"kingdom1":"K1816","kingdom2":"K336","allianceName1":"MAN","allianceName2":"red","id1":"91","id2":"92","id3":"93"},
+		}
+	
+		cok.allianList = ["1,K223,MTW",
+							"2,K763,AIW",
+							"3,K756,TEN",
+							"4,K1816,Nic",
+							"5,K1816,MAN",
+							"6,K473,W4Z",
+							"7,K28,GR4",
+							"8,K242,Svt",
+							"9,K1391,WPA",
+							"10,K763,TwN",
+							"11,K1341,KUR",
+							"12,K532,Jak",
+							"13,K491,Deu",
+							"14,K1221,BWA",
+							"15,K141,GBR",
+							"16,K182,TT4",
+							"17,K2093,AIC",
+							"18,K97,WAO",
+							"19,K265,Kri",
+							"20,K336,red",
+							"21,K1127,WAR",
+							"22,K639,COK",
+							"23,K336,BOT",
+							"24,K582,MIT",
+							"25,K564,ZZD",
+							"26,K89,F1G",
+							"27,K1089,KTF",
+							"28,K1398,Pak",
+							"29,K1391,U04",
+							"30,K1089,Roy",
+							"31,K491,JIN",
+							"32,K336,FmO"]
+		
 	</script>
-	<div id="dialog" class="dialog" title="Reward">
-		<div class="inner">
-			<h5>Collected successfully, please check your in-game mail!</h5>
-			<span class="btn btn3">OK</span>
-		</div>
-	</div>
-	<div class="loading"><span>loading...</span></div>
-	<script src="/asset/jquery/jquery-ui.min.js?v=20190615"></script>
 	<script type="text/javascript">
-		$(function(){
-			var width = parseInt($("section").width()*0.55);
-			var height = parseInt(width*316/300);
-			$("#dialog").dialog({
-				autoOpen:true,
-				modal:true,
-				width:width,
-				height:height,
-				dialogClass: "reward-dialog",
-				classes:{
-					"ui-dialog":""
+	$(document).ready(function(){
+	// 	var width = parseInt($("section").width()*0.7);
+	// var height = parseInt(width*355/361);
+	// $("#dialog").dialog({
+	// 	autoOpen:true,
+	// 	modal:true,
+	// 	width:width, 
+	// 	height:height,
+	// 	dialogClass: "reward-dialog",
+	// 	classes:{
+	// 		"ui-dialog":""
+	// 	}
+	// });
+	// $(".reward-dialog .inner").css({"padding":(width*0.1)+"px","height":width*0.7});
+	// $("#dialog").dialog("close");
+	// $("#dialog").show();
+		var per1 = window.innerWidth/640;
+		if(per1>1)
+		{
+			per1 = 1;
+		}
+		$(".tipsNormal").css({"height":358*per1,"width":640*per1});
+		$(".tipsNormal").css({"margin-left":0});
+		$(".guessDialog").css({"height":600*per1,"width":640*per1});
+		$(".guessDialog").css({"margin-left":0});
+		$(".llShop").css({"height":788*per1,"width":546*per1});
+		$(".llShop").css({"margin-left":47*per1});
+		$(".btn1").css({"height":44*per1,"width":184*per1});
+		$(".shareDia").css({"height":382*per1,"width":609*per1});
+		$(".shareDia").css({"margin-left":15*per1});
+
+		$(".title").css({"height":73*per1});
+		$(".btn").css({"line-height":4.5*per1});
+		var articleHeight2 = parseInt($("section").width()*1280/640);
+		$(".bg").css("height",articleHeight2);
+		$(".closeBtn").css({"height":per1*50,"width":per1*50});
+		if(cok.profileLang=="zh"||cok.profileLang=="zh2"||cok.profileLang=="zh_CN"||cok.profileLang=="zh_TW")
+		{
+			// $(".pageTitle").css("background-image",'url("http://h5.eleximg.com/a31/asset/image/title1_zh.png")');
+			$(".llTitle").css("background-image",'url("http://h5.eleximg.com/a31/asset/image/title2_zh.png")');
+			// $(".pageTitle").show();
+			$(".llTitle").show();
+			// $(".slogan").hide();
+			$(".tipsTitle3").hide();
+		}
+		else if(cok.profileLang=="en")
+		{
+			// $(".pageTitle").css("background-image",'url("http://h5.eleximg.com/a31/asset/image/title1_en.png")');
+			$(".llTitle").css("background-image",'url("http://h5.eleximg.com/a31/asset/image/title2_en.png")');
+			// $(".pageTitle").show();
+			$(".llTitle").show();
+			// $(".slogan").hide();
+			$(".tipsTitle3").hide();
+		}
+		else 
+		{
+			// $(".pageTitle").hide();
+			$(".llTitle").hide();
+			// $(".slogan").show();
+			$(".tipsTitle3").show();
+		}
+		cok.initTeam();
+		cok.initTime();
+		cok.initTime2();
+		cok.initAlert();
+	});
+
+	cok.initAlert = function()
+	{
+		if(cok.isInList==1 &&!getCookie("GuessIsInList"))
+		{
+			setCookie("GuessIsInList",1,1000);
+			cok.myAlert('Karena kesalahan data, jawaban "Siapa yang akan menduduki Tambang Kristal Pertama" dalam pertandingan "K491 Deu vs K141 GBR" yang Anda tebak salah diselesaikan, dan skala naga Anda sekarang telah dikompensasi pada odds 3.0 (peluang akhir aktual: 2.71).');
+		}
+		
+	}
+	cok.initTime2 = function()
+	{
+		var team1 = cok.teamGroup2[1];
+		var guessTitleId = team1["id2"];
+		var schedule = cok.schedule[guessTitleId];
+		if(schedule["status"]==0&&schedule["endTs"]>0)
+		{
+			cok.ts2 = schedule["endTs"];
+			cok.timer2 = setInterval("cok.setleftTimeStr2()",1000);
+		}
+		else
+		{
+			cok.ts2 = 0;
+			$(".leftTimeStr2 span.btnStr").html("Kuis sudah berakhir");
+		}
+	}
+	cok.initTime = function()
+	{
+		var schedule = cok.schedule[0];
+		if(schedule["status"]==0&&schedule["endTs"]>0)
+		{
+			cok.ts = schedule["endTs"]
+			cok.timer = setInterval("cok.setleftTimeStr1()",1000);
+		}
+		else
+		{
+			cok.ts = 0;
+			$(".leftTimeStr1 span.btnStr").html("Kuis sudah berakhir");
+		}
+	}
+	cok.initTeam64 = function()
+	{
+		$(".singleList").empty();
+		for( i=1;i<=32;i++)
+		{
+			var team1 = cok.teamGroup64[""+i];
+			var guessTitleId = team1["id2"];
+			var schedule = cok.schedule[guessTitleId];
+			var btnState = '';
+			if(schedule["status"]!=0||schedule["endTs"]<=0)
+			{
+				btnState = '<div class="listBtn" onclick="cok.clickSingleGuess('+i+')"><span class="btnStr">Lihat hasil</span></div>';
+			}
+			else 
+			{
+				btnState = '<div class="listBtn" onclick="cok.clickSingleGuess('+i+')"><span class="btnStr">Ulangan</span></div>';
+			}
+			var teamStr = team1["kingdom1"]+"&nbsp;"+ team1["allianceName1"]+'<font color="#fe2727">&nbsp&nbspVS&nbsp&nbsp</font>'+team1["kingdom2"]+"&nbsp;"+ team1["allianceName2"];
+			var teamInfo = '<div class="list list'+i+'"><div class="listTitle"><span class="btnStr">'+schedule["start"]+'-'+schedule["end"]+'</span></div><div class="listCon"><span class="btnStr">'+teamStr+'</span></div>'+btnState+'</div>'
+			$(".singleList").append(teamInfo);
+			$(".list"+i).css({"top":((i-1)*24+1)+"%"});
+		}
+	}
+
+	cok.serachVSTeam = function(id)
+	{
+		var arr = [];
+		for(var key in cok.teamGroup64)
+		{
+			var obj = cok.teamGroup64[key];
+			if (obj.id1==id||obj.id2==id||obj.id3==id)
+			{
+				arr[0]= obj.kingdom1;
+				arr[1]= obj.allianceName1;
+				arr[2]= obj.kingdom2;
+				arr[3]= obj.allianceName2;
+				return arr;
+			}
+		}
+		for(var key in cok.teamGroup32)
+		{
+			var obj = cok.teamGroup32[key];
+			if (obj.id1==id||obj.id2==id||obj.id3==id)
+			{
+				arr[0]= obj.kingdom1;
+				arr[1]= obj.allianceName1;
+				arr[2]= obj.kingdom2;
+				arr[3]= obj.allianceName2;
+				return arr;
+			}
+		}
+		for(var key in cok.teamGroup16)
+		{
+			var obj = cok.teamGroup16[key];
+			if (obj.id1==id||obj.id2==id||obj.id3==id)
+			{
+				arr[0]= obj.kingdom1;
+				arr[1]= obj.allianceName1;
+				arr[2]= obj.kingdom2;
+				arr[3]= obj.allianceName2;
+				return arr;
+			}
+		}
+		for(var key in cok.teamGroup8)
+		{
+			var obj = cok.teamGroup8[key];
+			if (obj.id1==id||obj.id2==id||obj.id3==id)
+			{
+				arr[0]= obj.kingdom1;
+				arr[1]= obj.allianceName1;
+				arr[2]= obj.kingdom2;
+				arr[3]= obj.allianceName2;
+				return arr;
+			}
+		}
+		for(var key in cok.teamGroup4)
+		{
+			var obj = cok.teamGroup4[key];
+			if (obj.id1==id||obj.id2==id||obj.id3==id)
+			{
+				arr[0]= obj.kingdom1;
+				arr[1]= obj.allianceName1;
+				arr[2]= obj.kingdom2;
+				arr[3]= obj.allianceName2;
+				return arr;
+			}
+		}
+		for(var key in cok.teamGroup2)
+		{
+			var obj = cok.teamGroup2[key];
+			if (obj.id1==id||obj.id2==id||obj.id3==id)
+			{
+				arr[0]= obj.kingdom1;
+				arr[1]= obj.allianceName1;
+				arr[2]= obj.kingdom2;
+				arr[3]= obj.allianceName2;
+				return arr;
+			}
+		}
+	}
+
+	function getNum(){
+	    ind=len-n;
+	    s=Math.floor(Math.random()*(ind));
+	    swap(s,ind);                //将随机取到的元素放到未取用部分的最后
+	    n++;                           //下次就不会取用到交换后的元素
+	    return nums[ind];        //直接将交换后的元素返回
+	}
+
+	function swap(start,target){
+	    t=nums[start];
+	    nums[start]=nums[target];
+	    nums[target]=t;
+	}
+	var nums=[];
+	var len=0;
+	var n=0;    
+	cok.initRandom = function()
+	{
+	    nums =[];  
+	    len=4;
+	    n=1;             //函数调用次数，没调用一次加1，用来限制索引最大值。
+		for(j=0;j<len;j++)
+		{
+		    nums[j]=j+1;
+		}
+	}
+	cok.initTeam32 = function()
+	{
+		cok.clickTabIndex = 1;
+		// $(".singleList").show();
+		// $(".singleList").empty();
+		for( i=1;i<=16;i++)
+		{
+			var index = i;
+			var team1 = cok.teamGroup32[""+index];
+			var guessTitleId = team1["id2"];
+			var schedule = cok.schedule[guessTitleId];
+			var btnState = '';
+			if(schedule["status"]!=0||schedule["endTs"]<=0)
+			{
+				btnState = '<div class="listBtn" onclick="cok.clickSingleGuess('+index+')"><span class="btnStr">Lihat hasil</span></div>';
+			}
+			else 
+			{
+				btnState = '<div class="listBtn" onclick="cok.clickSingleGuess('+index+')"><span class="btnStr">Ulangan</span></div>';
+			}
+			var teamStr = team1["kingdom1"]+"&nbsp;"+ team1["allianceName1"]+'<font color="#fe2727">&nbsp&nbspVS&nbsp&nbsp</font>'+team1["kingdom2"]+"&nbsp;"+ team1["allianceName2"];
+			var teamInfo = '<div class="list list'+i+'"><div class="listTitle"><span class="btnStr">'+schedule["start"]+'-'+schedule["end"]+'</span></div><div class="listCon"><span class="btnStr">'+teamStr+'</span></div>'+btnState+'</div>'
+			$(".singleList1").append(teamInfo);
+			$(".list"+i).css({"top":((i-1)*24+1)+"%"});
+		}
+	}
+	cok.initTeam2 = function()
+	{
+		cok.clickTabIndex = 5;
+		$(".singleList5").show();
+		$(".singleList5").empty();
+			var index =1;
+			var team1 = cok.teamGroup2[""+index];
+			var guessTitleId = team1["id2"];
+			var schedule = cok.schedule[guessTitleId];
+			var btnState = '';
+			if(schedule["status"]!=0&&schedule["endTs"]<=0)
+			{
+				btnState = '<div class="listBtn" onclick="cok.clickSingleGuess('+index+')"><span class="btnStr">Lihat hasil</span></div>';
+			}
+			else if(schedule["status"]==0&&schedule["endTs"]<=0)
+			{
+				btnState = '<div class="listBtn" onclick="cok.clickSingleGuess('+index+')"><span class="btnStr">Kuis sudah berakhir</span></div>';
+			}
+			else 
+			{
+				btnState = '<div class="listBtn" onclick="cok.clickSingleGuess('+index+')"><span class="btnStr">Ulangan</span></div>';
+			}
+			var teamStr = team1["kingdom1"]+"&nbsp;"+ team1["allianceName1"]+'<font color="#fe2727">&nbsp&nbspVS&nbsp&nbsp</font>'+team1["kingdom2"]+"&nbsp;"+ team1["allianceName2"];
+			var teamInfo = '<div class="list list1"><div class="listTitle"><span class="btnStr">'+schedule["start"]+'-'+schedule["end"]+'</span></div><div class="listCon"><span class="btnStr">'+teamStr+'</span></div>'+btnState+'</div>'
+			$(".singleList5").append(teamInfo);
+			$(".list1").css({"top":"1%"});
+	}
+	cok.initTeam4 = function()
+	{
+		cok.clickTabIndex = 4;
+		$(".singleList4").empty();
+		for( i=1;i<=2;i++)
+		{
+			var index =i;
+			var team1 = cok.teamGroup4[""+index];
+			var guessTitleId = team1["id2"];
+			var schedule = cok.schedule[guessTitleId];
+			var btnState = '';
+			if(schedule["status"]!=0&&schedule["endTs"]<=0)
+			{
+				btnState = '<div class="listBtn" onclick="cok.clickSingleGuess('+index+')"><span class="btnStr">Lihat hasil</span></div>';
+			}
+			else if(schedule["status"]==0&&schedule["endTs"]<=0)
+			{
+				btnState = '<div class="listBtn" onclick="cok.clickSingleGuess('+index+')"><span class="btnStr">Kuis sudah berakhir</span></div>';
+			}
+			else 
+			{
+				btnState = '<div class="listBtn" onclick="cok.clickSingleGuess('+index+')"><span class="btnStr">Ulangan</span></div>';
+			}
+			var teamStr = team1["kingdom1"]+"&nbsp;"+ team1["allianceName1"]+'<font color="#fe2727">&nbsp&nbspVS&nbsp&nbsp</font>'+team1["kingdom2"]+"&nbsp;"+ team1["allianceName2"];
+			var teamInfo = '<div class="list list'+i+'"><div class="listTitle"><span class="btnStr">'+schedule["start"]+'-'+schedule["end"]+'</span></div><div class="listCon"><span class="btnStr">'+teamStr+'</span></div>'+btnState+'</div>'
+			$(".singleList4").append(teamInfo);
+			$(".list"+i).css({"top":((i-1)*24+1)+"%"});
+		}
+	}
+	cok.initTeam8 = function()
+	{
+		cok.clickTabIndex = 3;
+		$(".singleList3").empty();
+		for( i=1;i<=4;i++)
+		{
+			var index = i;
+			// var index = getNum();
+			var team1 = cok.teamGroup8[""+index];
+			var guessTitleId = team1["id2"];
+			var schedule = cok.schedule[guessTitleId];
+			var btnState = '';
+			if(schedule["status"]!=0&&schedule["endTs"]<=0)
+			{
+				btnState = '<div class="listBtn" onclick="cok.clickSingleGuess('+index+')"><span class="btnStr">Lihat hasil</span></div>';
+			}
+			else if(schedule["status"]==0&&schedule["endTs"]<=0)
+			{
+				btnState = '<div class="listBtn" onclick="cok.clickSingleGuess('+index+')"><span class="btnStr">Kuis sudah berakhir</span></div>';
+			}
+			else 
+			{
+				btnState = '<div class="listBtn" onclick="cok.clickSingleGuess('+index+')"><span class="btnStr">Ulangan</span></div>';
+			}
+			var teamStr = team1["kingdom1"]+"&nbsp;"+ team1["allianceName1"]+'<font color="#fe2727">&nbsp&nbspVS&nbsp&nbsp</font>'+team1["kingdom2"]+"&nbsp;"+ team1["allianceName2"];
+			var teamInfo = '<div class="list list'+i+'"><div class="listTitle"><span class="btnStr">'+schedule["start"]+'-'+schedule["end"]+'</span></div><div class="listCon"><span class="btnStr">'+teamStr+'</span></div>'+btnState+'</div>'
+			$(".singleList3").append(teamInfo);
+			$(".list"+i).css({"top":((i-1)*24+1)+"%"});
+		}
+	}
+	cok.initTeam16 = function()
+	{
+		cok.clickTabIndex = 2;
+		// $(".singleList2").show();
+		// $(".singleList2").empty();
+		// cok.initRandom();
+		for( i=1;i<=8;i++)
+		{
+			var index = i;
+			// var index = getNum();
+			var team1 = cok.teamGroup16[""+index];
+			var guessTitleId = team1["id2"];
+			var schedule = cok.schedule[guessTitleId];
+			var btnState = '';
+			if(schedule["status"]!=0||schedule["endTs"]<=0)
+			{
+				btnState = '<div class="listBtn" onclick="cok.clickSingleGuess('+index+')"><span class="btnStr">Lihat hasil</span></div>';
+			}
+			else 
+			{
+				btnState = '<div class="listBtn" onclick="cok.clickSingleGuess('+index+')"><span class="btnStr">Ulangan</span></div>';
+			}
+			var teamStr = team1["kingdom1"]+"&nbsp;"+ team1["allianceName1"]+'<font color="#fe2727">&nbsp&nbspVS&nbsp&nbsp</font>'+team1["kingdom2"]+"&nbsp;"+ team1["allianceName2"];
+			var teamInfo = '<div class="list list'+i+'"><div class="listTitle"><span class="btnStr">'+schedule["start"]+'-'+schedule["end"]+'</span></div><div class="listCon"><span class="btnStr">'+teamStr+'</span></div>'+btnState+'</div>'
+			$(".singleList2").append(teamInfo);
+			$(".list"+i).css({"top":((i-1)*24+1)+"%"});
+		}
+	}
+	cok.initTeam = function()
+	{
+		
+		$("#drop").append("<option value='-1'></option>");
+		for(var i=1;i<=cok.allianList.length;i++)
+		{
+			var arr = cok.allianList[i-1].split(",");
+			var str = "<option value='"+i+"'>"+arr[1]+"&nbsp;"+arr[2]+"</option>";
+			$("#drop").append(str);
+		}
+		$(".myLLNum").html('Sisik Nagaku:<font color="#32fe22">'+cok.profileNum+'</font>');
+		cok.showDetailList(1);
+		// cok.initTeam64();
+		cok.initTeam32();
+		cok.initTeam16();
+		cok.initTeam8();
+		// cok.initTeam8();
+		cok.initTeam4();
+		cok.initTeam2();
+	}
+	
+	cok.showDetailList = function(index)
+	{
+		cok.recordList =[];
+		$.ajax({
+				method: "POST",
+				url: "/a31/api.php?a=4&uid=1812639737002093", 
+				dataType: "json",
+				data: {}
+			}).done(function(obj){
+				if(obj.error == 0){
+					$(".table2").empty();
+					var list = obj.list;
+					cok.recordList = obj.list;
+					if(index == 1)
+					{
+						return;
+					}
+					$("#record").show();
+					$("#blackPage").show();
+					cok.breakEvent();
+					if(list.length==0)
+					{
+						$(".noTips").show();
+					}
+					else
+					{
+						$(".noTips").hide();
+					}
+					for(var i=0;i<list.length;i++)
+					{
+						var obj1 = list[i];
+						var num = "";
+						var type = "";
+						var type2 = "";
+						var date = obj1.date;
+						var betStr="";
+						if(obj1.type==1)
+						{
+							if(obj1.sid==0)
+							{
+								var allian = cok.allianList[obj1.res-1].split(",");
+								var allStr = allian[1]+"&nbsp;"+allian[2];
+								betStr =cok.getJoinStr("Kuis Juara Terakhir {0}",["{0}"],[allStr]);
+								type2 = betStr;
+							}
+							else
+							{
+								var betArr  = cok.serachVSTeam(obj1.sid);
+								if(betArr&&betArr.length>0)
+								{
+									betStr = betArr[0]+"&nbsp;"+betArr[1]+"&nbsp;VS&nbsp;"+ betArr[2]+"&nbsp;"+betArr[3];
+									type2 = betStr;
+									
+								}
+							}
+							
+							var schedule = cok.schedule[obj1.sid];
+							if(schedule["status"]!=0&&schedule["status"]==obj1.res)
+							{
+								var betNum = cok.bet[obj1.sid][obj1.res];
+								if(betNum &&betNum>0)
+								{
+									betNum ="+"+ parseInt(betNum*obj1.num);
+									type = "Kuis berhasil";
+									var tableStr = '<tr class="trHeight"><td class="td1"><span><font color="red">'+date+'</font></span></td><td class="td2"><span><font color="red">'+type+'</font></span></td><td class="td3"><span><font color="red">'+type2+'</font></span></td><td class="td4"><span><font color="red">'+betNum+'</font></span></td></tr>'
+									$(".table2").append(tableStr);
+								}
+								type = "Bergabunglah dengan Kuis";
+							}
+							else
+							{
+								type = "Bergabunglah dengan Kuis";
+							}
+							num = "-"+obj1.num;
+
+						}
+						else if(obj1.type=="2")
+						{
+							type = "Toko Penukaran";
+							num = "-"+cok.product[obj1.pid]["cost"]*obj1.num;
+							type2 = obj1.num+"*"+cok.itemName[obj1.pid-1];
+						}
+						else
+						{
+							type = "Kuis berhasil";
+							num = "+"+obj1.num;
+						}
+						
+						var tableStr = '<tr class="trHeight"><td class="td1"><span>'+date+'</span></td><td class="td2"><span>'+type+'</span></td></td><td class="td3"><span>'+type2+'</span></td><td class="td4"><span>'+num+'</span></td></tr>'
+						$(".table2").append(tableStr);
+					}
+					
 				}
 			});
-			$("#dialog span.btn").click(function(){
-				$("#dialog").dialog("close");
-			});
-
-			var padding = (width*0.12)+"px";
-			$(".reward-dialog .inner").css({"padding":(width*0.1)+"px",height:width*0.77});
-			$(".reward-dialog i").css("height",$(".reward-dialog i").width());
-			var btnHeight = parseInt($(".reward-dialog .btn").width()*72/264);
-			$(".reward-dialog .btn").css({"height":btnHeight,"line-height":btnHeight+"px"});
-			$("#dialog").dialog("close");
-
-			$("section.recommand").on("click","span.gift",function(){
-				window.elex.tag = 1;
-				$("#dialog").dialog("open");
-				$(this).removeClass("gift").addClass("gift2");
-				$.ajax({url:"/activityCenter/api.php?a=2&uid=1812639737002093&lang=id"});
+	}
+	
+	cok.clickGuessBox = function(indx1,index2)
+	{
+		// if(cok.level<26)
+		// {
+		// 	cok.hideDialog();
+		// 	cok.myAlert("城堡等级过低，仅对26级以上城堡开放！");
+		// 	return;
+		// }
+		if(cok.ts2<=0)
+		{
+			cok.myAlert("Kuis sudah berakhir");
+			return;
+		}
+		var team1 = null;
+		if(cok.clickTabIndex == 1)
+		{
+			team1 = cok.teamGroup32[""+cok.chooseGroup];
+		}
+		else if(cok.clickTabIndex == 2)
+		{
+			team1 = cok.teamGroup16[""+cok.chooseGroup];
+		}
+		else if(cok.clickTabIndex == 3)
+		{
+			team1 = cok.teamGroup8[""+cok.chooseGroup];
+		}
+		else if(cok.clickTabIndex == 4)
+		{
+			team1 = cok.teamGroup4[""+cok.chooseGroup];
+		}
+		else if(cok.clickTabIndex == 5)
+		{
+			team1 = cok.teamGroup2[""+cok.chooseGroup];
+		}
+		
+		cok.tid = team1["id"+indx1];
+		var betTeam = "";
+		if(indx1<=2)
+		{
+			if(index2==-1)
+			{
+				betTeam = team1["kingdom1"]+"&nbsp;&nbsp;"+team1["allianceName1"];
+			}
+			else 
+			{
+				betTeam = team1["kingdom2"]+"&nbsp;&nbsp;"+team1["allianceName2"];
+			}
+			$(".betTitle").html("Pilih:"+betTeam);
+		}
+		else
+		{
+			if(index2==-1)
+			{
+				betTeam ="≤1000 Poin";
+			}
+			else 
+			{
+				betTeam =">1000 Poin";
+			}
+			$(".betTitle").html("Pilih:"+betTeam);
+		}
+		
+		// $(".betGet2").html("赔率:"+cok.bet[cok.tid][""+index2]);
+		cok.chooseId = index2;
+		$("#bet").show();
+		$(".guessDialog").hide();
+		$("#blackPage").show();
+		$("#betNum").val("");
+		$(".betGet1").html("Jika menang, kamu akan mendapatkan:0"+"&nbsp;&nbsp;Peluang:"+cok.bet[cok.tid][""+index2]);
+		$( "#betSlider" ).slider( "option", "max",cok.profileNum );
+		$( "#betSlider" ).slider( "value", 0 );
+		cok.breakEvent();
+	}
+	cok.clickHotGuess = function()
+	{
+		// if(cok.level<26)
+		// {
+		// 	cok.hideDialog();
+		// 	cok.myAlert("城堡等级过低，仅对26级以上城堡开放！");
+		// 	return;
+		// }
+		if(cok.ts<=0)
+		{
+			cok.myAlert("Kuis sudah berakhir");
+			return;
+		}
+		cok.chooseId = $("#drop option:selected").val();
+		if(cok.chooseId>0)
+		{
+			var betTeam = "";
+			var team1 = cok.allianList[cok.chooseId-1].split(",");
+			betTeam = team1[1]+"&nbsp;&nbsp;"+team1[2];
+		    $(".betTitle").html("Pilih:"+betTeam);
+			cok.tid = 0;
+			$("#bet").show();
+			$("#blackPage").show();
+			$("#betNum").val("");
+			$(".betGet1").html("Jika menang, kamu akan mendapatkan:0"+"&nbsp;&nbsp;Peluang:"+cok.bet["0"][""+cok.chooseId]);
+			$( "#betSlider" ).slider( "option", "max",cok.profileNum );
+			$( "#betSlider" ).slider( "value", 0 );
+			cok.breakEvent();
+		}
+		
+	}
+	cok.clickLLShop = function()
+	{
+		$(".llShop").show();
+		$("#blackPage").show();
+		cok.breakEvent();
+	}
+	cok.getISGuess = function(id,res)
+	{
+		for(var i=0;i<cok.recordList.length;i++)
+		{
+			var obj = cok.recordList[i];
+			if(obj.type==1&&obj.sid == id&&obj.res==res)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	cok.clickSingleGuess = function(index)
+	{
+		
+		cok.chooseGroup = index;
+		$(".guessDialog").show();
+		$("#blackPage").show();
+		$(".guessBtnFlag").hide();
+		var team1 = null;
+		if(cok.clickTabIndex == 1)
+		{
+			team1 = cok.teamGroup32[""+cok.chooseGroup];
+		}
+		else if(cok.clickTabIndex == 2)
+		{
+			team1 = cok.teamGroup16[""+cok.chooseGroup];
+			
+		}
+		else if(cok.clickTabIndex == 3)
+		{
+			team1 = cok.teamGroup8[""+cok.chooseGroup];
+			
+		}
+		else if(cok.clickTabIndex == 4)
+		{
+			team1 = cok.teamGroup4[""+cok.chooseGroup];
+			
+		}
+		else if(cok.clickTabIndex == 5)
+		{
+			team1 = cok.teamGroup2[""+cok.chooseGroup];
+		}
+		
+		var betPoor = 0;
+		$(".team1Str").html(team1["kingdom1"]+"&nbsp;"+ team1["allianceName1"]);
+		$(".team2Str").html(team1["kingdom2"]+"&nbsp;"+ team1["allianceName2"]);
+		if(team1["id1"]&&team1["id1"]!=0)
+		{
+			$("#guessBox1").show();
+			$("#guessBox1").css({"top":"26%"});
+			$("#guessBox2").css({"top":"50%"});
+			$("#guessBox3").css({"top":"74%"});
+			$("#guessA1").html(team1["allianceName1"]);
+			$("#guessC1").html(team1["allianceName2"]);
+			var id1 = team1["id1"];
+			var bet = cok.bet[id1];
+			var bet2 = cok.bet2[id1]["0"];
+			betPoor+=bet2;
+			$("#guessB1").html("Peluang:"+bet["-1"]);
+			$("#guessD1").html("Peluang:"+bet["1"]);
+			var left1 = cok.getISGuess(id1,-1);
+			var left2 = cok.getISGuess(id1,1);
+			var schedule = cok.schedule[id1];
+			var status = schedule["status"];
+			if(status==-1)
+			{
+				$("#guessBtn11 div.guessBtnFlag").show();
+				$("#guessBtn12 div.guessBtnFlag").hide();
+			}
+			else if(status==1)
+			{
+				$("#guessBtn11 div.guessBtnFlag").hide();
+				$("#guessBtn12 div.guessBtnFlag").show();
+			}
 				
+			if(left1)
+			{
+				var betNum = 0;
+				betNum =cok.getCountNum(id1,-1);
+				$("#guessBtn11 div.guessBtnBet div.beted span.btnStr").text(cok.getJoinStr("Taruhan {0}",["{0}"],[betNum]));
+				$("#guessBtn11 div.guessBtnBet").show();
+				// $("#guessBtn11").css("background-image",'url("http://h5.eleximg.com/a31/asset/image/btn13.png")');
+			}
+			else 
+			{
+				$("#guessBtn11 div.guessBtnBet").hide();
+				// $("#guessBtn11").css("background-image",'url("http://h5.eleximg.com/a31/asset/image/btn4.png")');
+			}
+			if(left2)
+			{
+				var betNum2 = 0;
+				betNum2 =cok.getCountNum(id1,1);
+				$("#guessBtn12 div.guessBtnBet div.beted span.btnStr").text(cok.getJoinStr("Taruhan {0}",["{0}"],[betNum2]));
+				$("#guessBtn12 div.guessBtnBet").show();
+				// $("#guessBtn12").css("background-image",'url("http://h5.eleximg.com/a31/asset/image/btn13.png")');
+			}
+			else 
+			{
+				$("#guessBtn12 div.guessBtnBet").hide();
+				// $("#guessBtn12").css("background-image",'url("http://h5.eleximg.com/a31/asset/image/btn4.png")');
+			}
+		}
+		else
+		{
+			$("#guessBox1").hide();
+			$("#guessBox2").css({"top":"26%"});
+			$("#guessBox3").css({"top":"50%"});
+		}
+		if(team1["id2"]&&team1["id2"]!=0)
+		{
+			$("#guessBox2").show();
+			$("#guessA2").html(team1["allianceName1"]);
+			$("#guessC2").html(team1["allianceName2"]);
+			var id2 = team1["id2"];
+			var bet = cok.bet[id2];
+			var bet2 = cok.bet2[id2]["0"];
+			betPoor+=bet2;
+			$("#guessB2").html("Peluang:"+bet["-1"]);
+			$("#guessD2").html("Peluang:"+bet["1"]);
+			var left1 = cok.getISGuess(id2,-1);
+			var left2 = cok.getISGuess(id2,1);
+			var schedule = cok.schedule[id2];
+			var status = schedule["status"];
+			if(status==-1)
+			{
+				$("#guessBtn21 div.guessBtnFlag").show();
+				$("#guessBtn22 div.guessBtnFlag").hide();
+			}
+			else if(status==1)
+			{
+				$("#guessBtn21 div.guessBtnFlag").hide();
+				$("#guessBtn22 div.guessBtnFlag").show();
+			}
+			if(left1)
+			{
+				var betNum = 0;
+				betNum =cok.getCountNum(id2,-1);
+				$("#guessBtn21 div.guessBtnBet div.beted span.btnStr").text(cok.getJoinStr("Taruhan {0}",["{0}"],[betNum]));
+				$("#guessBtn21 div.guessBtnBet").show();
+				// $("#guessBtn21").css("background-image",'url("http://h5.eleximg.com/a31/asset/image/btn13.png")');
+			}
+			else 
+			{
+				$("#guessBtn21 div.guessBtnBet").hide();
+				// $("#guessBtn21").css("background-image",'url("http://h5.eleximg.com/a31/asset/image/btn4.png")');
+			}
+			if(left2)
+			{
+				var betNum2 = 0;
+				betNum2 =cok.getCountNum(id2,1);
+				$("#guessBtn22 div.guessBtnBet div.beted span.btnStr").text(cok.getJoinStr("Taruhan {0}",["{0}"],[betNum2]));
+				$("#guessBtn22 div.guessBtnBet").show();
+				// $("#guessBtn22").css("background-image",'url("http://h5.eleximg.com/a31/asset/image/btn13.png")');
+			}
+			else 
+			{
+				$("#guessBtn22 div.guessBtnBet").hide();
+				// $("#guessBtn22").css("background-image",'url("http://h5.eleximg.com/a31/asset/image/btn4.png")');
+			}
+		}
+		else
+		{
+			$("#guessBox2").hide();
+		}
+		if(team1["id3"]&&team1["id3"]!=0)
+		{
+			$("#guessBox4").show();
+			$("#guessA3").html("≤1000 Poin");
+			$("#guessC3").html(">1000 Poin");
+			var id3 = team1["id3"];
+			var bet = cok.bet[id3];
+			var bet2 = cok.bet2[id3]["0"];
+			betPoor+=bet2;
+			$("#guessB3").html("Peluang:"+bet["-1"]);
+			$("#guessD3").html("Peluang:"+bet["1"]);
+			var left1 = cok.getISGuess(id3,-1);
+			var left2 = cok.getISGuess(id3,1);
+			var schedule = cok.schedule[id3];
+			var status = schedule["status"];
+			if(status==-1)
+			{
+				$("#guessBtn31 div.guessBtnFlag").show();
+				$("#guessBtn32 div.guessBtnFlag").hide();
+			}
+			else if(status==1)
+			{
+				$("#guessBtn31 div.guessBtnFlag").hide();
+				$("#guessBtn32 div.guessBtnFlag").show();
+			}
+			if(left1)
+			{
+				var betNum = 0;
+				betNum =cok.getCountNum(id3,-1);	
+				$("#guessBtn31 div.guessBtnBet div.beted span.btnStr").text(cok.getJoinStr("Taruhan {0}",["{0}"],[betNum]));
+				$("#guessBtn31 div.guessBtnBet").show();
+				// $("#guessBtn31").css("background-image",'url("http://h5.eleximg.com/a31/asset/image/btn13.png")');
+			}
+			else 
+			{
+				$("#guessBtn31 div.guessBtnBet").hide();
+				// $("#guessBtn31").css("background-image",'url("http://h5.eleximg.com/a31/asset/image/btn4.png")');
+			}
+			if(left2)
+			{
+				var betNum2 = 0;
+				betNum2 =cok.getCountNum(id3,1);	
+				$("#guessBtn32 div.guessBtnBet div.beted span.btnStr").text(cok.getJoinStr("Taruhan {0}",["{0}"],[betNum2]));
+				$("#guessBtn32 div.guessBtnBet").show();
+				// $("#guessBtn32").css("background-image",'url("http://h5.eleximg.com/a31/asset/image/btn13.png")');
+			}
+			else 
+			{
+				$("#guessBtn32 div.guessBtnBet").hide();
+				// $("#guessBtn32").css("background-image",'url("http://h5.eleximg.com/a31/asset/image/btn4.png")');
+			}
+		}
+		else
+		{
+			$("#guessBox3").hide();
+		}
+		$(".guessInfo1").html('Pool Taruhan<font color="#68a4ff">'+betPoor+'</font>Sisik Naga');
+		cok.breakEvent();
+
+	}
+	cok.getCountNum = function(sid,index)
+	{
+		var num = 0;
+		for(var i=0;i<cok.recordList.length;i++)
+		{
+			var obj = cok.recordList[i];
+			if(obj.type==1&&obj.sid == sid&&obj.res==index)
+			{
+				num+=obj.num
+			}
+		}
+		return num;
+	}
+	cok.clickTab = function(index)
+	{
+		var indexStr = '';
+		indexStr = index;
+		cok.clickTabIndex = index;
+		$(".singleList2").hide();
+		$(".singleList1").hide();
+		$(".singleList3").hide();
+		$(".singleList4").hide();
+		$(".singleList5").hide();
+		$(".singleList"+indexStr).show();
+		$(".sbtn2").css("background-image",'url("")');
+		$(".sbtn3").css("background-image",'url("")');
+		$(".sbtn4").css("background-image",'url("")');
+		$(".sbtn5").css("background-image",'url("")');
+		$(".sbtn1").css("background-image",'url("")');
+		$(".sbtn"+index).css("background-image",'url("http://h5.eleximg.com/a31/asset/image/chooseImg.png")');
+		
+	}
+	cok.clickTipsDialog = function()
+	{
+		$("#rules").show();
+		$("#blackPage").show();
+		cok.breakEvent();
+	}
+	cok.buyItem = function(index)
+	{
+		// if(cok.level<26)
+		// {
+		// 	cok.hideDialog();
+		// 	cok.myAlert("城堡等级过低，仅对26级以上城堡开放！");
+		// 	return;
+		// }
+		cok.clickItemId = index;
+		$("#exchange").show();
+		$("#blackPage").show();
+		$(".llShop").hide();
+		var left = cok.product[index]["limit"]-cok["profileN"+index];
+		var str = cok.getJoinStr("Tebus {0}, silakan masukkan nomor tebus (sisa nomor tebusan: {1}):",["{0}","{1}"],[cok.itemName[index-1],left]);
+		$(".exchangeTilte").html(str);
+		$("#exchangeNum").val("");
+
+
+		var cost = cok.product[cok.clickItemId]["cost"];
+		var canBuy = parseInt(cok.profileNum/cost) ;
+		var lef = cok.product[cok.clickItemId]["limit"]-cok["profileN"+cok.clickItemId];
+		var max = 0;
+		if(canBuy<lef)
+		{
+			max = canBuy;
+		}
+		else if(canBuy>=lef)
+		{
+			max = lef;
+		}
+		$( "#exchangeSlider" ).slider( "option", "max",max );
+		$( "#exchangeSlider" ).slider( "value", 0 );
+		cok.breakEvent();
+	}
+	cok.exchange = function()
+	{
+		var num = $("#exchangeNum").val();
+		var cost = cok.product[cok.clickItemId]["cost"]*num;
+		var left = cok.product[cok.clickItemId]["limit"]-cok["profileN"+cok.clickItemId];
+		$("#exchange").hide();
+		if(cost > cok.profileNum ||num==0)
+		{
+			cok.myAlert("Penebusan gagal, kamu tidak punya cukup naga!  Selesaikan pencarian aktif untuk menebus sisik naga atau bergabunglah dengan kuis untuk memenangkan lebih banyak sisik naga!");
+			return;
+		}
+		else if(left < num)
+		{
+			cok.myAlert("Tebusan gagal, jumlah tebusan telah melampaui batas maksimum.");
+			
+			return;
+		}
+		else
+		{
+			$.ajax({
+				method: "POST",
+				url: "/a31/api.php?a=3&uid=1812639737002093&pid="+cok.clickItemId+"&num="+num, 
+				dataType: "json",
+				data: {}
+			}).done(function(obj){
+				if(obj.error == 0){
+					$("#bet").hide();
+					cok["profileN"+cok.clickItemId]  = parseInt(cok["profileN"+cok.clickItemId])+ parseInt(num);
+					cok.profileNum = parseInt(cok.profileNum) - parseInt(cost);
+					$(".myLLNum").html('Sisik Nagaku:<font color="#32fe22">'+cok.profileNum+'</font>');
+					cok.myAlert("Tebusan berhasil!");
+				}
 			});
+		}
+	}
+	cok.exchangeMax = function()
+	{
+		var cost = cok.product[cok.clickItemId]["cost"];
+		var canBuy = parseInt(cok.profileNum/cost) ;
+		var left = cok.product[cok.clickItemId]["limit"]-cok["profileN"+cok.clickItemId];
+		var max = 0;
+		if(canBuy<left)
+		{
+			max = canBuy;
+		}
+		else if(canBuy>=left)
+		{
+			max = left;
+		}
+		$("#exchangeNum").val(max);
+	}
+	cok.chooseBetNum = function()
+	{
+		var num = $("#betNum").val();
+		if(cok.tid==0)
+		{
+			$(".betGet1").html("Jika menang, kamu akan mendapatkan:"+parseInt(cok.bet["0"][""+cok.chooseId]*num)+"&nbsp;&nbsp;Peluang:"+cok.bet["0"][""+cok.chooseId]);
+		}
+		else 
+		{
+			$(".betGet1").html("Jika menang, kamu akan mendapatkan:"+parseInt(cok.bet[""+cok.tid][""+cok.chooseId]*num)+"&nbsp;&nbsp;Peluang:"+cok.bet[""+cok.tid][""+cok.chooseId]);
+		}
+		cok.chooseLLNum = num;
+	}
+	cok.submitBet = function()
+	{
+		var num1 = $("#betNum").val();
+		var num = cok.chooseLLNum;
+		if(num==0||isNaN(num)||num1==0)
+		{
+			console.log("1111");
+			return;
+		}
+		var id = cok.chooseId;
+		var tid = cok.tid;
+		if(parseInt(num)>parseInt(cok.profileNum))
+		{
+			//cok.myAlert("投注失败，龙鳞不足！完成活跃度任务兑换龙鳞或参与竞猜赢取更多龙鳞！");
+			//$("#bet").hide();
+			console.log("2222");
+			return;
 
-			$("body").on("click","div.ui-widget-overlay",function(){
-				$("#dialog").dialog("close");
-				$.ajax({url:"/activityCenter/api.php?a=2&uid=1812639737002093&lang=id"});
+		}
+		$("#bet").hide();
+		if(tid==0)
+		{
+			$.ajax({
+				method: "POST",
+				url: "/a31/api.php?a=2&uid=1812639737002093&res="+id+"&num="+num, 
+				dataType: "json",
+				data: {}
+			}).done(function(obj){
+				if(obj.error == 0){
+					cok.myAlert("Taruhan berhasil!");
+					cok.profileNum = parseInt(cok.profileNum) - parseInt(num);
+					$(".myLLNum").html('Sisik Nagaku:<font color="#32fe22">'+cok.profileNum+'</font>');
+					cok.showDetailList(1);
+				}
+				else if(obj.error == 2)
+				{
+					cok.myAlert("Kuis sudah berakhir");
+				}
 			});
-
-			$("a").click(function(){
-				$(".loading").css("display","block");
+		}
+		else
+		{
+			$.ajax({
+				method: "POST",
+				url: "/a31/api.php?a=1&uid=1812639737002093&res="+id+"&num="+num+"&sid="+tid, 
+				dataType: "json",
+				data: {}
+			}).done(function(obj){
+				if(obj.error == 0){
+					cok.myAlert("Taruhan berhasil!");
+					cok.profileNum = parseInt(cok.profileNum) - parseInt(num);
+					$(".myLLNum").html('Sisik Nagaku:<font color="#32fe22">'+cok.profileNum+'</font>');
+					cok.showDetailList(1);
+				}
+				else if(obj.error == 2)
+				{
+					cok.myAlert("Kuis sudah berakhir");
+				}
 			});
-			$(window).on("pageshow",function(){
-				$(".loading").css("display","none");
-			});
+		}
+	}
+	
+	cok.setleftTimeStr1 = function ()
+	{
+		cok.ts--;
+		var time = cok.ts;
+		if(time<=0)
+		{
+			clearInterval(cok.timer);
+			$(".leftTimeStr1 span.btnStr").html("Kuis sudah berakhir");
+			return;
+		}
+		var timeStr='';
+		var d= parseInt(time/86400)+"D ";
+		var hleft=time%86400;
+		var h= hleft/3600/10>=1? parseInt(hleft/3600):"0"+parseInt(hleft/3600);
+		var minleft=hleft%3600;
+		var m = (minleft/60)/10>=1 ? parseInt(minleft/60):"0"+parseInt(minleft/60);
+		var secleft=minleft%60;
+		var s = secleft/10>=1 ? secleft:"0"+secleft;
+		timeStr=d+h+":"+m+":"+s;
+        $(".leftTimeStr1 span.btnStr").html(timeStr); 
+	}
+	cok.setleftTimeStr2 = function ()
+	{
+		cok.ts2--;
+		var time = cok.ts2;
+		if(time<=0)
+		{
+			clearInterval(cok.timer2);
+			$(".leftTimeStr2 span.btnStr").html("Kuis sudah berakhir");
+			return;
+		}
+		var timeStr='';
+		var d= parseInt(time/86400)+"D ";
+		var hleft=time%86400;
+		var h= hleft/3600/10>=1? parseInt(hleft/3600):"0"+parseInt(hleft/3600);
+		var minleft=hleft%3600;
+		var m = (minleft/60)/10>=1 ? parseInt(minleft/60):"0"+parseInt(minleft/60);
+		var secleft=minleft%60;
+		var s = secleft/10>=1 ? secleft:"0"+secleft;
+		timeStr=d+h+":"+m+":"+s;
+        $(".leftTimeStr2 span.btnStr").html(timeStr); 
+	}
+	cok.getJoinStr = function(strText,args1,args2)
+    {
+        var str = strText;
+        for(var i=0;i<args2.length;i++)
+        {
+            str = str.replace(args1[i],args2[i]);
+        }
+        return str;
+    }
+cok.joinArr = function(arr)
+    {
+        var str = "";
+        for(var i=0;i<arr.length;i++)
+        {
+            str=str+arr[i];
+        }
+        return str;
+    }
 
-		});
+	cok.hidetipsNormal = function()
+    {
+        $(".tipsNormal").hide();
+		$("#blackPage").hide();
+    }
+	
+   cok.hideDialog = function()
+	{
+		$(".llShop").hide();
+		$(".guessDialog").hide();
+		$(".tipsNormal").hide();
+		$("#blackPage").hide();
+		$(".shareDia").hide();
+		
+	}
+	cok.myAlert = function(message){
+        $(".dialogStr").html(message);
+		$("#dialogBox").show();
+		$("#blackPage").show();
+		cok.breakEvent();
+    };
+	cok.breakEvent = function()
+    {
+        var e = (event) ? event : window.event;
+        if (window.event) {//IE
+            e.cancelBubble=true;
+        } else { //FF
+        e.stopPropagation();
+        }
+    }
+	cok.tj = function(event){
+		var img = new Image();
+		img.src="http://www.globososo.com/i.gif?tag=S3WorldCupGuess&uid=1812639737002093&action=" + event + "&t=" + new Date().getTime(); 
+		$("#tj").append(img);
+	};
+	cok.tj("S3WorldCupGuess.pv");
+	cok.backClick = function()
+	{
+		if(cok.profileStatus <= 0)
+		{
+			return;
+		}
+		window.location.href="/activityCenter/?uid=1812639737002093&lang=id&regCountry=ID&kingdom=1";
+	}
 
 
-	</script>
+	cok.showShareDia =function()
+	{
+		cok.showShare(); 
+	}
+
+cok.showShare = function()
+	{
+		$(".shareDia").show();
+		$("#blackPage").show();
+		var e = (event) ? event : window.event;
+			if (window.event) {//IE
+				e.cancelBubble=true;
+			} else { //FF
+			e.stopPropagation();
+			}
+	}
+	var title = "Kuis Piala Dunia S3 CoK";
+    var url1 = "http://h5-cok.elex-tech.net/a31/?lang=zh_CN";
+    var imgurl2 = "http://h5-cok.elex-tech.net/a03/asset/image/game_ico1.jpg";
+    var content = "Mari kita saksikan kebangkitan juara baru S3 CoK World Cup bersama-sama!";
+    var shareString = "nativeShare://webViewAdpter?shareUrl=";
+
+    cok.share = function(type)
+    {
+		cok.myAlert("Berbagi kesuksesan");
+        $(".shareDia").hide();
+        cok.tj("S3WorldCupGuess.share");
+        var shareStr = shareString+encodeURIComponent(url1)+"&shareType="+type+"&shareTitle="+title+"&shareContent="+content+"&shareImg="+encodeURIComponent(imgurl2);
+        window.location.href=shareStr;
+    }
+	function setCookie( name, value, expdays){
+		 var curDate = new Date();
+		//当前时间戳
+		var curTamp = curDate.getTime();
+
+		//当日凌晨的时间戳,减去一毫秒是为了防止后续得到的时间不会达到00:00:00的状态
+		var curWeeHours = new Date(curDate.toLocaleDateString()).getTime() - 1;
+		//当日已经过去的时间（毫秒）
+		var passedTamp = curTamp - curWeeHours;
+		//当日剩余时间
+       
+		var leftTamp = 86400000*expdays;
+		var leftTime = new Date();
+		leftTime.setTime(leftTamp + curTamp);
+		//创建cookie
+		document.cookie = name + "=" + escape(value) + ";expires=" + leftTime.toGMTString(); 
+        // target1.innerText += "----设置tips为"+document.cookie+"---" ;
+      }
+
+      //获取cookie
+      function getCookie(key){
+        var start = document.cookie.indexOf(key+"=") ; 
+        if ( start != -1 )
+        {
+            start = start + key.length + 1 ;        //获取value的终止位置
+            var end = document.cookie.indexOf(";", start) ;  
+              if ( end == -1 )
+              end = document.cookie.length ; 
+            //   target1.innerText += "----获取tips为"+unescape(document.cookie.substring(start,end))+"---" ;    
+            return unescape(document.cookie.substring(start,end)) ;
+        }    
+        // target1.innerText += "----获取tips为空---" ;
+        return "" ;
+      }
+              //移出cookie
+        function removeCookie(key){
+            setCookie(key, "", -1);  
+		}
+</script>
 </body>
 </html>
+
