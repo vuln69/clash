@@ -1,270 +1,642 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="referrer" content="no-referrer">
-<meta name="format-detection" content="telephone=no"/>
-<title></title>
-<link rel="stylesheet" href="/asset/bootstrap/css/bootstrap.min.css">
-<script src="/asset/vendor/js/jquery-3.3.1.min.js"></script>
-<script src="/asset/bootstrap/js/bootstrap.min.js"></script>
-<!-- <script>
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	<title></title>
+	<meta charset='utf-8'>
+	<meta name="viewport" content="width=device-width,user-scalable=no" />
+	<meta name="format-detection" content="telephone=no"/>
+	<link rel="stylesheet" href="http://h5.eleximg.com/asset/jquery/jquery-ui.min.css?v=20190615">
+	<script type="text/javascript">
+		window.elex = window.elex || {};
+		window.elex.tag = 0;
 
-	ga('create', 'UA-136395152-1', 'auto');
-	ga('set', 'page', 'GiftCode');
-	ga('send', 'pageview');
-	</script> -->
-<style type="text/css">
-    .btn
-	{
-        width: 207px; height: 73px;
-        background: url('/a12/asset/image/btn.png');
-		background-repeat:no-repeat;
-		color: #ffe49e;
-		font-weight: bolder;
-		padding:0;
-		margin:0;
-		cursor:pointer;
-		font-size:1rem;
-		display:inline-block;
-		line-height: 90%;
-        transform: scale(0.8);
-	}
-    .contain
-    {
-        background:url("/a12/asset/image/bg.png");
-        background-position:0 0;
-        background-repeat:no-repeat;
-        background-size:100% 100%;
-        min-height: 30rem;
-        margin-top: 2rem;
-    }
-    .langBg {
-        width: 266px; height: 57px;
-        background: url('/a12/asset/image/long.png') ;
-        transform: scale(0.7);
-        margin-left: -60px;
-        margin-top: -15px;
-    }
-    .shortBg {
-        width: 194px; height: 57px;
-        background: url('/a12/asset/image/short.png') ;
-        transform: scale(0.7);
-        margin-left: -48px;
-        margin-top: -15px;
-    }
-    body
-    {
-        background-color: #1e1c1c;
-    }
-    .info
-    {
-        color: white;
-    }
-    .info2
-    {
-        color: white;
-        font-size: 16px;
-    }
-    .info3
-    {
-        color: white;
-        font-size: 20px;
-        text-align: center;
-        top: 15px;
-        position: relative;
-    }
-    .info4
-    {
-        color: white;
-        font-size: 16px;
-    }
-    .titleInfo{
-        text-align: center;
-        top: 1.3rem;
-        position: relative;
-    }
-    .row1
-    {
-        margin-top: 100px;
-    }
-    .row2
-    {
-        margin-top: 10px;
-    }
-    #giftcode
-    {
-        width: 200px;
-        margin-top: 12px;
-        margin-left: 10px;
-    }
-</style>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+		ga('create', 'UA-136395152-1', 'auto');
+		ga('set', 'page', 'activityCenter');
+		ga('send', 'pageview');	
+	</script>
+	<script type="text/javascript" src="http://h5.eleximg.com/asset/jquery/jquery.min.js?v=20190615"></script>
+	<style type="text/css">
+		html,body,section,article,header,footer,h1,h2,h3,h4,h5,h6{
+			padding:0;
+			margin:0;
+			font-family:arial,sans-serif;
+			font-size:14px;
+		}
+		.clear{
+			clear:both;
+		}
+		section{
+			max-width:640px;
+			margin:0 auto;
+		}
+		span.btn{
+			background-repeat:no-repeat;
+			background-size:contain;			
+		}
+		span.btn1{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/btn1_bg.png');
+		}
+		span.btn2{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/btn2_bg.png');
+		}
+		span.btn3{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/btn3_bg.png');
+		}
+		section.recommand{
+			background:#262019 url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/item_bg.jpg') no-repeat 50% bottom;
+		}
+		section.recommand article{
+			background-color:#262019;
+			background-repeat:no-repeat;
+			background-size:contain;
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/recommand_bg.png');
+			position:relative;
+		}
+		section.recommand .title{
+			font-size:16px;
+			color:#ffea94;
+			font-weight:bold;
+			text-align:center;
+			height:0;
+			overflow:hidden;
+		}
+		section.recommand .back{
+			position:absolute;
+			left:0;
+			top:0;
+			width:15%;
+			height:15%;
+			z-index:9998;
+			color:transparent;
+			text-indent:-1000px;
+		}
+		section.recommand span.a17{
+			display:none;			
+		}
+		section.recommand .gift,section.recommand .gift2{
+			background-repeat:no-repeat;
+			background-size:contain;
+			position:absolute;
+			right:14%;
+			bottom:34%;
+			z-index:9998;			
+		}
+		section.recommand .gift{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/gift.png');
+			cursor:pointer;
+		}
+		section.recommand .gift2{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/gift2.png');
+		}
+		section.recommand .cnt{
+			position:absolute;
+			left:0;
+			right:0;
+			bottom:16%;
+			text-align:center;
+			z-index:9998;
+		}
+		section.recommand .slogan{
+			color:#f17053;
+		}
+		section.recommand span.btn{
+			display:inline-block;
+			background-repeat:no-repeat;
+			background-size:100%;
+			background-position:50%,50%;
+			color:#fff;
+			width:45%;
+			height:0;
+			font-size:16px;
+			overflow:hidden;
+			font-weight:bold;
+			margin-bottom:-2px;
+		}
+		section.item{
+			background:#262019 url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/item_bg.jpg') no-repeat 50% 0;
+		}
+		section.item .col{
+			float:left;
+			width:50%;
+			overflow:hidden;
+		}
+		section.item .thumbnail,section.item .title{
+			background-repeat:no-repeat;
+			background-size:contain;
+			position:relative;
+		}
+		section.item .hot,section.item .new{
+			background-repeat:no-repeat;
+			background-size:contain;
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/hot.png?v=20190614');
+			position:absolute;
+			right:10%;
+			top:0;
+			z-index:9900;
+		}
+		section.item .new{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/new.png?v=20190614');
+		}
+		section.item .thumbnail{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/recommand_bg.png');
+			color:#fff;
+			z-index:9700;
+		}
+		section.item .thumbnail span{
+			position:absolute;
+			bottom:0;
+			left:0;
+			line-height:1.5;
+			padding:0 12px;
+			background-color:#000;
+			color:#AF3B2D;
+			font-size:12px;
+		}
+		section.item .abstract{
+			padding:6px 12px;
+			line-height:1.8;
+			color:rgb(135,111,73);
+			background-color:rgba(0,0,0,0.3);
+		}
+		section.item .title{
+			background-position:4px 0;
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/title_bg.png');
+			text-align:center;
+			font-size:16px;
+			font-weight:bold;
+			color:rgb(199,185,150);
+			top:2px;
+			z-index:9800;
+			margin-bottom:-6px;
+		}
+		section.item .reward{
+			position:relative;
+		}
+		section.item .reward .inner{
+			margin-left:4%;
+			margin-top:6px;
+		}
+		section.item .reward b{
+			margin-left:3%;
+			display:block;
+			line-height:2;
+			font-weight:normal;
+			color:#cacaca;
+		}
+		section.item .reward i{
+			margin-left:3%;
+			width:20%;
+			display:inline-block;
+			background-size:contain;
+			background-repeat:no-repeat;
+		}
+		section.item .reward i{
+			margin-left:3%;
+			width:20%;
+			display:inline-block;
+			background-size:contain;
+			background-repeat:no-repeat;
+		}
+		i.i1{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i1.png');
+		}
+		i.i2{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i2.png');
+		}
+		i.i3{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i3.png');
+		}
+		i.i4{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i4.png');
+		}
+		i.i5{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i5.png');
+		}
+		i.i6{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i6.png');
+		}
+		i.i7{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i7.png');
+		}
+		i.i8{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i8.png');
+		}
+		i.i9{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i9.png');
+		}
+		i.i10{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i10.png');
+		}
+		i.i11{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i11.png');
+		}
+		i.i12{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i12.png');
+		}
+		i.i13{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i13.png');
+		}
+		i.i14{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i14.png');
+		}
+		i.i15{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i15.png');
+		}
+		i.i16{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i16.png');
+		}
+		i.i17{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i17.png');
+		}
+		i.i18{
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/reward/i18.png');
+		}
+		section.item .reward .wrapper{
+			position:absolute;
+			left:0;
+			right:0;
+			bottom:15%;
+			text-align:center;
+		}
+		section.item .reward span.btn{
+			display:inline-block;
+			background-repeat:no-repeat;
+			background-size:100%;
+			background-position:50%,50%;
+			color:#FBD9A7;
+			width:60%;
+			height:0;
+			font-size:16px;
+			overflow:hidden;
+		}
+
+		div.ui-widget-overlay{
+			background:#000;
+			opacity:0.7;
+		}
+
+		.reward-dialog{
+			z-index:9999;
+			background-repeat:no-repeat;
+			background-size:contain;
+			background-position:50% 50%;
+			background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/dialog_bg.png?20190621');
+			padding:0;
+			margin:0;
+			border:none!important;
+		}
+
+		.reward-dialog .inner{
+			text-align:center;
+		}
+		.reward-dialog .ui-widget-header{
+			display:none;
+		}
+		.ui-widget-content{
+			color:#fff!important;
+			background-color:transparent!important;
+		}
+		.reward-dialog h5{
+			line-height:1.5;
+			margin:25% 0 10%;
+		}
+		.reward-dialog i{
+			width:30%;
+			margin:0 1.5%;
+			display:inline-block;
+			background-size:contain;
+			background-repeat:no-repeat;
+		}
+		.reward-dialog span.btn{
+			display:inline-block;
+			width:60%;
+			margin-top:10%;
+			cursor:pointer;
+		}
+		.loading{
+			position:fixed;
+			left:0;
+			top:0;
+			right:0;
+			bottom:0;
+			z-index:10000;
+			background:rgba(0,0,0,0.7);
+			display:none;
+			text-align:center;
+			color:#fff;
+			font-weight:bold;
+			font-size:20px;
+		}
+		.loading span{
+			position:relative;
+			top:48%;
+		}
+	</style>
 </head>
 <body>
-    <div class="bgImg">
-        <div class="headTitle">
-            <img  class="act img-fluid"  src="/x/asset/image/titleBar.png" class="img-responsive" />
-            <img  class="img-fluid" id="backBtn" onclick="cok.backClick()"  src="/x/asset/image/backButton.png" class="img-responsive" />
-            <div class="titleDiv text-center">
-                <h5 class="info"></h5>
-            </div>
-        </div>
-        <div class="contain">
-            <div class="inner">
-                <div class="titleInfo"><p class="info2"></p></div>
-            </div>
-            <div class="inputInfo">
-                <div class="row row1">
-                    <div class="col-1"></div>
-                    <div class="col-4 text-right">
-                        <p class="info4">:</p>
-                    </div>
-                    <div class="col-6">
-                        <div class="langBg">
-                            <p class="info3">1</p>
-                        </div>
-                    </div>
-                    <div class="col-1"></div>
-                </div>
-                <div class="row row2">
-                    <div class="col-1"></div>
-                    <div class="col-4 text-right">
-                        <p class="info4">:</p>
-                    </div>
-                    <div class="col-6">
-                        <div class="langBg">
-                            <p class="info3">Farm_Devil2</p>
-                        </div>
-                    </div>
-                    <div class="col-1"></div>
-                </div>
-                <div class="row row2">
-                    <div class="col-1"></div>
-                    <div class="col-4 text-right">
-                        <p class="info4">:</p>
-                    </div>
-                    <div class="col-6">
-                        <div class="shortBg">
-                            <input  type="text" name="giftcode" id="giftcode" />
-                        </div>
-                    </div>
-                    <div class="col-1"></div>
-                </div>
-                <div class="commitBtn text-center">
-                    <button  class="btn" onclick="cok.commit();"></button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="messageBox" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content" style="background-color: black;border: 2px solid yellow;">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true" class="info">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <h6 class='tips text-center py-4' style="color: white"></h6>
-            </div>
-            </div>
-        </div>
-    </div>
-    <div id="tj" class="invisble"></div>
-</body>
-<script type="text/javascript">
-    var cok = cok || {};
-    cok.shareStatus = 0;
-    cok.statusOfActivity = "0";
-    cok.profileUid = "1812639737002093";
-    cok.profileLang = "id";
-    cok.profileCountry = "ID";
-    cok.profileKingdom = "1";
-    cok.profileStatus = "1";
-    cok.STAGE = "{param.STAGE}";
-    $(document).ready(function(){
-        var widthValue = window.innerWidth/640;
-        $("#backBtn").css("width",widthValue*88);
-        $("#backBtn").css("hegiht",widthValue*88);
-        $("#backBtn").css("margin-top",-widthValue*88-2);
-        $(".act1").css("margin-top",0.30*88*widthValue);
-        $(".titleDiv").css("margin-top",-widthValue*70);
-    });
-    cok.backClick = function()
-    {
-        var lang = "id";
-		if(lang == "zh")
-		{
-			lang = "zh_CN";
-		}
-		else if(lang == "zh2")
-		{
-			lang = "zh_TW";
-		}
-		window.location.href="/activityCenter/?uid=1812639737002093&lang="+lang+"&regCountry=ID&kingdom=1";
-    }
-    
-    cok.tj = function(event){
-        var img = new Image();
-        img.src="http://www.globososo.com/i.gif?tag=GiftCode&uid=1812639737002093&action=" + event + "&t=" + new Date().getTime(); 
-        $("#tj").append(img);
-    };
-    cok.tj("GiftCode.pv");
 
-    cok.myAlert = function(message){
-        $(".tips").html(message);
-        $("#messageBox").modal("show");
-    };
-    cok.commit = function()
-    {
-        var giftcode = $("#giftcode").val();
-        if(!giftcode)
-        {
-            cok.myAlert("");
-            return;
-        }
-        $.ajax({
-                method: "GET",
-                url: "/a12/api.php?a=1&uid=1812639737002093&code="+giftcode, 
-                dataType: "json",
-                data: {}
-            }).done(function(obj){
-                if(obj.error == 0){
-                    cok.tj("GiftCode.get");
-                    cok.myAlert("");//礼包码兑换成功，奖励将通过游戏内邮件发送，请您耐心等待查收邮件
-                }
-                else if(obj.error == 4){
-                    cok.myAlert("");//您输入错误的次数太多，请稍后再试
-                }
-                else if(obj.error == -1)
-                {
-                    if(obj.status == 105005)
-                    {
-                        cok.myAlert("");//此礼包码已过期
-                    }
-                    else if(obj.status == 105004||obj.status == 105002)
-                    {
-                        cok.myAlert("");//此礼包码已经被兑换
-                    }
-                    else if(obj.status == 105010)
-                    {
-                        cok.myAlert("");//您已兑换过同批次其他礼包码，无法再次进行兑换，十分抱歉
-                    }
-                    else
-                    {
-                        cok.myAlert("");//礼包码无效，请您重新输入
-                    }
-                }
-                 
-            });
-    }
-</script>
+
+<section class="recommand">
+	<article style="background-image:url('http://h5.eleximg.com/activityCenter/asset/image/icon/n/recommand2_bg.png'),url('/activityCenter/asset/image/1595405868.jpg')">
+		<div class="title">World Domination Fort</div>
+		<span class="gift2"></span>
+		<a class="back" href="ecgWebviewClose://webViewAdpter?">&nbsp;</a>
+		<div class="cnt">
+			<a href="/a41/?uid=1812639737002093&regCountry=ID&lang=in&kingdom=1"><span class="btn btn2">Gabung sekarang</span></a>
+			<div class="slogan">20vs20 national teams participate.</div>
+		</div>
+	</article>
+</section>
+
+
+
+<section class="item">
+	<div class="title">
+		S3 CoK World Cup Quiz<span class=""></span>
+	</div>		
+	<div class="col thumbnail" style="background-image:url('http://h5.eleximg.com/activityCenter/asset/image/1583223626.jpg')">
+		<span>Peserta: 192137</span>
+	</div>
+	<div class="col reward">
+		<div class="inner">
+			<b>Hadiah</b>
+			<i class="i2"></i><i class="i5"></i><i class="i6 ii"></i>
+		</div>
+		<div class="wrapper">
+			<a href="/a31/?uid=1812639737002093&regCountry=ID&lang=in&kingdom=1"><span class="btn btn1">Gabung sekarang</span></a>
+		</div>
+	</div>
+	<div class="clear abstract">
+		Let us witness the rise of S3 CoK World Cup new champion together!
+	</div>
+</section>
+
+
+<section class="item">
+	<div class="title">
+		S3 World Cup Road to Championship<span class=""></span>
+	</div>		
+	<div class="col thumbnail" style="background-image:url('http://h5.eleximg.com/activityCenter/asset/image/1592820364.jpg')">
+		<span>Peserta: 118182</span>
+	</div>
+	<div class="col reward">
+		<div class="inner">
+			<b>Hadiah</b>
+			
+		</div>
+		<div class="wrapper">
+			<a href="/a30/?uid=1812639737002093&regCountry=ID&lang=in&kingdom=1"><span class="btn btn1">Gabung sekarang</span></a>
+		</div>
+	</div>
+	<div class="clear abstract">
+		Fair competition of strategy and teamwork
+	</div>
+</section>
+
+
+<section class="item">
+	<div class="title">
+		International World Cup<span class="hot"></span>
+	</div>		
+	<div class="col thumbnail" style="background-image:url('http://h5.eleximg.com/activityCenter/asset/image/1590656628.jpg')">
+		<span>Peserta: 291233</span>
+	</div>
+	<div class="col reward">
+		<div class="inner">
+			<b>Hadiah</b>
+			<i class="i1"></i><i class="i2"></i><i class="i3 ii"></i>
+		</div>
+		<div class="wrapper">
+			<a href="/a37/?uid=1812639737002093&regCountry=ID&lang=in&kingdom=1"><span class="btn btn1">Gabung sekarang</span></a>
+		</div>
+	</div>
+	<div class="clear abstract">
+		International World Cup, rewards keep coming!
+	</div>
+</section>
+
+
+<section class="item">
+	<div class="title">
+		Knight's Round Table<span class=""></span>
+	</div>		
+	<div class="col thumbnail" style="background-image:url('http://h5.eleximg.com/activityCenter/asset/image/1561628706.jpg')">
+		<span>Peserta: 0</span>
+	</div>
+	<div class="col reward">
+		<div class="inner">
+			<b>Hadiah</b>
+			<i class="i6"></i><i class="i10"></i>
+		</div>
+		<div class="wrapper">
+			<a href="/x/c.php?uid=1812639737002093&regCountry=ID&lang=in&kingdom=1"><span class="btn btn1">Gabung sekarang</span></a>
+		</div>
+	</div>
+	<div class="clear abstract">
+		Host a meet-up in your city! Make new friends, share your strategies, have a great time!
+	</div>
+</section>
+
+
+<section class="item">
+	<div class="title">
+		Hall of Fame S7<span class=""></span>
+	</div>		
+	<div class="col thumbnail" style="background-image:url('http://h5.eleximg.com/activityCenter/asset/image/1596013160.jpg')">
+		<span>Peserta: 425042</span>
+	</div>
+	<div class="col reward">
+		<div class="inner">
+			<b>Hadiah</b>
+			<i class="i2"></i><i class="i3"></i><i class="i7 ii"></i>
+		</div>
+		<div class="wrapper">
+			<a href="/a25/?uid=1812639737002093&regCountry=ID&lang=in&kingdom=1"><span class="btn btn1">Gabung sekarang</span></a>
+		</div>
+	</div>
+	<div class="clear abstract">
+		We hope that players from all over the world could get to know each other.
+	</div>
+</section>
+
+
+<section class="item">
+	<div class="title">
+		Strategy Site<span class=""></span>
+	</div>		
+	<div class="col thumbnail" style="background-image:url('http://h5.eleximg.com/activityCenter/asset/image/1563521524.jpg')">
+		<span>Peserta: 367082</span>
+	</div>
+	<div class="col reward">
+		<div class="inner">
+			<b>Hadiah</b>
+			
+		</div>
+		<div class="wrapper">
+			<a href="/a19/?uid=1812639737002093&regCountry=ID&lang=in&kingdom=1"><span class="btn btn1">Gabung sekarang</span></a>
+		</div>
+	</div>
+	<div class="clear abstract">
+		We want to build a platform that contains various strategies and hope it will be helpful!
+	</div>
+</section>
+
+
+<section class="item">
+	<div class="title">
+		Gift code exchange center<span class=""></span>
+	</div>		
+	<div class="col thumbnail" style="background-image:url('http://h5.eleximg.com/activityCenter/asset/image/1557226604.jpg')">
+		<span>Peserta: 91590</span>
+	</div>
+	<div class="col reward">
+		<div class="inner">
+			<b>Hadiah</b>
+			
+		</div>
+		<div class="wrapper">
+			<a href="/a12/?uid=1812639737002093&regCountry=ID&lang=in&kingdom=1"><span class="btn btn1">Gabung sekarang</span></a>
+		</div>
+	</div>
+	<div class="clear abstract">
+		Gift code exchange center
+	</div>
+</section>
+
+
+<section class="item">
+	<div class="title">
+		Points store<span class=""></span>
+	</div>		
+	<div class="col thumbnail" style="background-image:url('http://h5.eleximg.com/activityCenter/asset/image/1594798159.jpg')">
+		<span>Peserta: 558272</span>
+	</div>
+	<div class="col reward">
+		<div class="inner">
+			<b>Hadiah</b>
+			<i class="i6"></i><i class="i10"></i><i class="i11 ii"></i>
+		</div>
+		<div class="wrapper">
+			<a href="/store/?uid=1812639737002093&regCountry=ID&lang=in&kingdom=1"><span class="btn btn1">Gabung sekarang</span></a>
+		</div>
+	</div>
+	<div class="clear abstract">
+		Signing in, staying online and recharging can earn you points for redeeming rare items. Stay tuned!
+	</div>
+</section>
+
+
+<section class="item">
+	<div class="title">
+		Sign-in Milestone<span class=""></span>
+	</div>		
+	<div class="col thumbnail" style="background-image:url('http://h5.eleximg.com/activityCenter/asset/image/1596013211.jpg')">
+		<span>Peserta: 1148561</span>
+	</div>
+	<div class="col reward">
+		<div class="inner">
+			<b>Hadiah</b>
+			<i class="i15"></i>
+		</div>
+		<div class="wrapper">
+			<a href="/a00/?uid=1812639737002093&regCountry=ID&lang=in&kingdom=1"><span class="btn btn1">Gabung sekarang</span></a>
+		</div>
+	</div>
+	<div class="clear abstract">
+		Accumulate sign-in days to collect a precious nameplate, sign-in to unlock achievements and stamps
+	</div>
+</section>
+
+
+	<script type="text/javascript">
+		(function(){
+			var btnHeight = parseInt($("section.recommand .btn").width()*83/327);
+			var articleHeight = parseInt($("section").width()*800/1080);
+			var titleHeight = parseInt(articleHeight*0.12);
+			var giftHeight = parseInt($("section").width()*0.16);
+			$("section.recommand article").css("height",articleHeight);
+			$("section.recommand .title").css({"height":titleHeight,"line-height":titleHeight+"px"});
+			$("section.recommand .btn").css({"height":btnHeight,"line-height":(btnHeight*0.8)+"px"});
+			$("section.recommand .gift").css({"height":giftHeight,"width":giftHeight+1});
+			$("section.recommand .gift2").css({"height":giftHeight,"width":giftHeight+1});
+		})();
+	</script>
+	<script type="text/javascript">
+		(function(){
+			var colHeight = parseInt($("section.item .col").width()*758/1080);
+			var rewardHeight = parseInt($("section.item i").width());
+			var titleHeight = parseInt($("section").width()*91/1080);
+			var btnHeight = parseInt($("section.item .btn").width()*72/264);
+			$("section.item .col").css("height",colHeight);
+			$("section.item i").css("height",rewardHeight);
+			$("section.item .title").css({"height":titleHeight,"line-height":titleHeight+"px"});
+			$("section.item .hot").css({"height":titleHeight*1.2,"width":titleHeight*1.2});
+			$("section.item .new").css({"height":titleHeight*1.2,"width":titleHeight*1.2});
+			$("section.item .btn").css({"height":btnHeight,"line-height":btnHeight+"px"});
+		})();
+	</script>
+	<div id="dialog" class="dialog" title="Reward">
+		<div class="inner">
+			<h5>Sukses mengumpulkan, harap periksa pesan di game</h5>
+			<span class="btn btn3">OK</span>
+		</div>
+	</div>
+	<div class="loading"><span>loading...</span></div>
+	<script src="http://h5.eleximg.com/asset/jquery/jquery-ui.min.js?v=20190615"></script>
+	<script type="text/javascript">
+		$(function(){
+			var width = parseInt($("section").width()*0.55);
+			var height = parseInt(width*316/300);
+			$("#dialog").dialog({
+				autoOpen:true,
+				modal:true,
+				width:width,
+				height:height,
+				dialogClass: "reward-dialog",
+				classes:{
+					"ui-dialog":""
+				}
+			});
+			$("#dialog span.btn").click(function(){
+				$("#dialog").dialog("close");
+			});
+
+			var padding = (width*0.12)+"px";
+			$(".reward-dialog .inner").css({"padding":(width*0.1)+"px",height:width*0.77});
+			$(".reward-dialog i").css("height",$(".reward-dialog i").width());
+			var btnHeight = parseInt($(".reward-dialog .btn").width()*72/264);
+			$(".reward-dialog .btn").css({"height":btnHeight,"line-height":btnHeight+"px"});
+			$("#dialog").dialog("close");
+
+			$("section.recommand").on("click","span.gift",function(){
+				window.elex.tag = 1;
+				$("#dialog").dialog("open");
+				$(this).removeClass("gift").addClass("gift2");
+				$.ajax({url:"/activityCenter/api.php?a=2&uid=1812639737002093&lang=in"});
+				
+			});
+
+			$("body").on("click","div.ui-widget-overlay",function(){
+				$("#dialog").dialog("close");
+				$.ajax({url:"/activityCenter/api.php?a=2&uid=1812639737002093&lang=in"});
+			});
+
+			$("a").click(function(){
+				$(".loading").css("display","block");
+			});
+			$(window).on("pageshow",function(){
+				$(".loading").css("display","none");
+			});
+
+		});
+
+
+	</script>
+</body>
 </html>
